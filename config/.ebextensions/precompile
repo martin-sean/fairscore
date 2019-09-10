@@ -1,0 +1,2 @@
+container_commands:
+    command: bundle exec rails assets: precompile
