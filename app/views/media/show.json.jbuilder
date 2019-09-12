@@ -1,1 +1,1 @@
-json.partial! "media/medium", medium: @medium
+json.partial! "media/media ", media : @media 

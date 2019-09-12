@@ -2,47 +2,47 @@ require 'test_helper'
 
 class MediaControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @medium = media(:one)
+    @media  = media(:one)
   end
 
   test "should get index" do
-    get media_url
+    get media_index_url
     assert_response :success
   end
 
   test "should get new" do
-    get new_medium_url
+    get new_media _url
     assert_response :success
   end
 
-  test "should create medium" do
-    assert_difference('Medium.count') do
-      post media_url, params: { medium: { title: @medium.title, year: @medium.year } }
+  test "should create media " do
+    assert_difference('Media.count') do
+      post media_index_url, params: { media : { info: @media .info, title: @media .title, year: @media .year } }
     end
 
-    assert_redirected_to medium_url(Medium.last)
+    assert_redirected_to media _url(Media.last)
   end
 
-  test "should show medium" do
-    get medium_url(@medium)
+  test "should show media " do
+    get media _url(@media )
     assert_response :success
   end
 
   test "should get edit" do
-    get edit_medium_url(@medium)
+    get edit_media _url(@media )
     assert_response :success
   end
 
-  test "should update medium" do
-    patch medium_url(@medium), params: { medium: { title: @medium.title, year: @medium.year } }
-    assert_redirected_to medium_url(@medium)
+  test "should update media " do
+    patch media _url(@media ), params: { media : { info: @media .info, title: @media .title, year: @media .year } }
+    assert_redirected_to media _url(@media )
   end
 
-  test "should destroy medium" do
-    assert_difference('Medium.count', -1) do
-      delete medium_url(@medium)
+  test "should destroy media " do
+    assert_difference('Media.count', -1) do
+      delete media _url(@media )
     end
 
-    assert_redirected_to media_url
+    assert_redirected_to media_index_url
   end
 end

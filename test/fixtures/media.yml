@@ -3,7 +3,9 @@
 one:
   title: MyString
   year: 
+  info: MyString
 
 two:
   title: MyString
   year: 
+  info: MyString

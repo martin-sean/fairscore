@@ -1,10 +1,10 @@
-<%= form_with(model: medium, local: true) do |form| %>
-  <% if medium.errors.any? %>
+<%= form_with(model: media , local: true) do |form| %>
+  <% if media .errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(medium.errors.count, "error") %> prohibited this medium from being saved:</h2>
+      <h2><%= pluralize(media .errors.count, "error") %> prohibited this media  from being saved:</h2>
 
       <ul>
-        <% medium.errors.full_messages.each do |message| %>
+        <% media .errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -19,6 +19,11 @@
   <div class="field">
     <%= form.label :year %>
     <%= form.text_field :year %>
+  </div>
+
+  <div class="field">
+    <%= form.label :info %>
+    <%= form.text_field :info %>
   </div>
 
   <div class="actions">

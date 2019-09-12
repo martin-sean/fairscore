@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class MediaTest < ApplicationSystemTestCase
   setup do
-    @medium = media(:one)
+    @media  = media(:one)
   end
 
   test "visiting the index" do
@@ -10,36 +10,38 @@ class MediaTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Media"
   end
 
-  test "creating a Medium" do
+  test "creating a Media" do
     visit media_url
-    click_on "New Medium"
+    click_on "New Media"
 
-    fill_in "Title", with: @medium.title
-    fill_in "Year", with: @medium.year
-    click_on "Create Medium"
+    fill_in "Info", with: @media .info
+    fill_in "Title", with: @media .title
+    fill_in "Year", with: @media .year
+    click_on "Create Media"
 
-    assert_text "Medium was successfully created"
+    assert_text "Media was successfully created"
     click_on "Back"
   end
 
-  test "updating a Medium" do
+  test "updating a Media" do
     visit media_url
     click_on "Edit", match: :first
 
-    fill_in "Title", with: @medium.title
-    fill_in "Year", with: @medium.year
-    click_on "Update Medium"
+    fill_in "Info", with: @media .info
+    fill_in "Title", with: @media .title
+    fill_in "Year", with: @media .year
+    click_on "Update Media"
 
-    assert_text "Medium was successfully updated"
+    assert_text "Media was successfully updated"
     click_on "Back"
   end
 
-  test "destroying a Medium" do
+  test "destroying a Media" do
     visit media_url
     page.accept_confirm do
       click_on "Destroy", match: :first
     end
 
-    assert_text "Medium was successfully destroyed"
+    assert_text "Media was successfully destroyed"
   end
 end

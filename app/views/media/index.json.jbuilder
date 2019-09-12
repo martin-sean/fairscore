@@ -1,1 +1,1 @@
-json.array! @media, partial: "media/medium", as: :medium
+json.array! @media, partial: "media/media ", as: :media 

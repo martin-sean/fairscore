@@ -3,6 +3,7 @@ class CreateMedia < ActiveRecord::Migration[6.0]
     create_table :media do |t|
       t.string :title
       t.int :year
+      t.string :info
 
       t.timestamps
     end

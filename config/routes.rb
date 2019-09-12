@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :media
   resources :ratings
   root 'home#index'
 
@@ -6,6 +7,5 @@ Rails.application.routes.draw do
   resources :actors
   resources :genres
   resources :statuses
-  resources :media
   resources :users
 end
