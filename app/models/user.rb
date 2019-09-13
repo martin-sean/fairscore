@@ -1,3 +1,4 @@
 class User < ApplicationRecord
-  has_many :ratings
+  has_many :ratings, dependent: :destroy
+  has_many :media, through: :ratings
 end

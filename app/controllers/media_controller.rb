@@ -1,5 +1,5 @@
 class MediaController < ApplicationController
-  before_action :set_media , only: [:show, :edit, :update, :destroy]
+  before_action :set_media, only: [:show, :edit, :update, :destroy]
 
   # GET /media
   # GET /media.json
@@ -14,7 +14,7 @@ class MediaController < ApplicationController
 
   # GET /media/new
   def new
-    @media  = Media.new
+    @media = Media.new
   end
 
   # GET /media/1/edit
@@ -24,15 +24,15 @@ class MediaController < ApplicationController
   # POST /media
   # POST /media.json
   def create
-    @media  = Media.new(media _params)
+    @media = Media.new(media_params)
 
     respond_to do |format|
-      if @media .save
-        format.html { redirect_to @media , notice: 'Media was successfully created.' }
-        format.json { render :show, status: :created, location: @media  }
+      if @media.save
+        format.html { redirect_to @media, notice: 'Media was successfully created.' }
+        format.json { render :show, status: :created, location: @media }
       else
         format.html { render :new }
-        format.json { render json: @media .errors, status: :unprocessable_entity }
+        format.json { render json: @media.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -41,12 +41,12 @@ class MediaController < ApplicationController
   # PATCH/PUT /media/1.json
   def update
     respond_to do |format|
-      if @media .update(media _params)
-        format.html { redirect_to @media , notice: 'Media was successfully updated.' }
-        format.json { render :show, status: :ok, location: @media  }
+      if @media.update(media_params)
+        format.html { redirect_to @media, notice: 'Media was successfully updated.' }
+        format.json { render :show, status: :ok, location: @media }
       else
         format.html { render :edit }
-        format.json { render json: @media .errors, status: :unprocessable_entity }
+        format.json { render json: @media.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -54,7 +54,7 @@ class MediaController < ApplicationController
   # DELETE /media/1
   # DELETE /media/1.json
   def destroy
-    @media .destroy
+    @media.destroy
     respond_to do |format|
       format.html { redirect_to media_index_url, notice: 'Media was successfully destroyed.' }
       format.json { head :no_content }
@@ -63,12 +63,12 @@ class MediaController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_media 
-      @media  = Media.find(params[:id])
+    def set_media
+      @media = Media.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def media _params
-      params.require(:media ).permit(:title, :year, :info)
+    def media_params
+      params.require(:media).permit(:title, :year, :info)
     end
 end

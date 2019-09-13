@@ -2,18 +2,18 @@
 
 <p>
   <strong>Title:</strong>
-  <%= @media .title %>
+  <%= @media.title %>
 </p>
 
 <p>
   <strong>Year:</strong>
-  <%= @media .year %>
+  <%= @media.year %>
 </p>
 
 <p>
   <strong>Info:</strong>
-  <%= @media .info %>
+  <%= @media.info %>
 </p>
 
-<%= link_to 'Edit', edit_media _path(@media ) %> |
+<%= link_to 'Edit', edit_media_path(@media) %> |
 <%= link_to 'Back', media_index_path %>

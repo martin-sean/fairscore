@@ -13,14 +13,14 @@
   </thead>
 
   <tbody>
-    <% @media.each do |media | %>
+    <% @media.each do |media| %>
       <tr>
-        <td><%= media .title %></td>
-        <td><%= media .year %></td>
-        <td><%= media .info %></td>
-        <td><%= link_to 'Show', media  %></td>
-        <td><%= link_to 'Edit', edit_media _path(media ) %></td>
-        <td><%= link_to 'Destroy', media , method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= media.title %></td>
+        <td><%= media.year %></td>
+        <td><%= media.info %></td>
+        <td><%= link_to 'Show', media %></td>
+        <td><%= link_to 'Edit', edit_media_path(media) %></td>
+        <td><%= link_to 'Destroy', media, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Media ', new_media _path %>
+<%= link_to 'New Media', new_media_path %>

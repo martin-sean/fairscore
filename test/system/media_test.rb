@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class MediaTest < ApplicationSystemTestCase
   setup do
-    @media  = media(:one)
+    @media = media(:one)
   end
 
   test "visiting the index" do
@@ -14,9 +14,9 @@ class MediaTest < ApplicationSystemTestCase
     visit media_url
     click_on "New Media"
 
-    fill_in "Info", with: @media .info
-    fill_in "Title", with: @media .title
-    fill_in "Year", with: @media .year
+    fill_in "Info", with: @media.info
+    fill_in "Title", with: @media.title
+    fill_in "Year", with: @media.year
     click_on "Create Media"
 
     assert_text "Media was successfully created"
@@ -27,9 +27,9 @@ class MediaTest < ApplicationSystemTestCase
     visit media_url
     click_on "Edit", match: :first
 
-    fill_in "Info", with: @media .info
-    fill_in "Title", with: @media .title
-    fill_in "Year", with: @media .year
+    fill_in "Info", with: @media.info
+    fill_in "Title", with: @media.title
+    fill_in "Year", with: @media.year
     click_on "Update Media"
 
     assert_text "Media was successfully updated"

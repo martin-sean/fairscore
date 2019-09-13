@@ -10,7 +10,7 @@
 #   inflect.uncountable %w( fish sheep )
 # end
 ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.irregular 'media ', 'media'
+  inflect.irregular 'media', 'media'
 end
 
 
