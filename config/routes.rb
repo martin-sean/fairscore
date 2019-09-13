@@ -1,16 +1,16 @@
 Rails.application.routes.draw do
-  resources :media
+  resources :users
   resources :ratings
+  resources :statuses
+  resources :media
+  resources :genres
   resources :directors
   resources :actors
-  resources :genres
-  resources :statuses
-  resources :users
 
   root 'home#index'
-  get  '/signup', to: 'users#new'
-  post '/signup', to: 'users#create'
-  get '/login', to: 'sessions#new'
-  post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
+  get  '/register', to: 'users#new'
+  post '/register', to: 'users#create'
+  get '/login', to: 'session#new'
+  post '/login', to: 'session#create'
+  delete '/logout', to: 'session#destroy'
 end

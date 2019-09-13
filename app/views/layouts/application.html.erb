@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title><%= yield :title %></title>
+    <title><%= full_title(yield(:title)) %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -9,7 +9,18 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="container">
+    <%# TODO: Navigation bar %>
+    <header>
+
+    </header>
+
+    <%# Display flash messages %>
+    <%= render 'layouts/flash_messages', flash: flash %>
+
+    <%# Main Body %>
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>

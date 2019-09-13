@@ -4,7 +4,7 @@ class User < ApplicationRecord
 
   # BCrypt password login adapted from https://www.railstutorial.org
   attr_accessor :remember_token
-  validates :username, presence: true, length: { maximum: 255}, uniqueness: { case_sensitive: false }
+  validates :username, presence: true, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, presence: true, length: { minimum: 8 }
 
@@ -13,7 +13,7 @@ class User < ApplicationRecord
     # Return the hash digest of a string
     def digest(string)
       cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
-      BCrypt::Password.create(string, cost)
+      BCrypt::Password.create(string, cost: cost)
     end
 
     # Return a random token
