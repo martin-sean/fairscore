@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_13_004037) do
+ActiveRecord::Schema.define(version: 2019_09_15_094919) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name", null: false
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2019_09_13_004037) do
     t.string "info"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "zscore"
   end
 
   create_table "media_actors", force: :cascade do |t|
@@ -85,6 +86,7 @@ ActiveRecord::Schema.define(version: 2019_09_13_004037) do
     t.float "media_score_mean"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "meanscore"
   end
 
   add_foreign_key "media_actors", "actors"
