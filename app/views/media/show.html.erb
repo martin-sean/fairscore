@@ -1,19 +1,11 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @media.title %>
-</p>
-
-<p>
-  <strong>Year:</strong>
-  <%= @media.year %>
-</p>
-
-<p>
-  <strong>Info:</strong>
-  <%= @media.info %>
-</p>
-
-<%= link_to 'Edit', edit_media_path(@media) %> |
-<%= link_to 'Back', media_index_path %>
+<div class="d-flex w-100 justify-content-between">
+  <h5 class="mb-1"><%= @media.title %></h5>
+  <small><%= @media.zscore %></small>
+</div>
+<p class="mb-1"><%= @media.year %></p>
+<small><%= @media.users.count %> users</small>
+<div class="d-flex w-100 justify-content-between">
+  <td><%= link_to 'Show', @media %></td>
+  <td><%= link_to 'Edit', edit_media_path(@media) %></td>
+  <td><%= link_to 'Destroy', @media, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</div>

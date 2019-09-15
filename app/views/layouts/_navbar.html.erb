@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="container navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <%= link_to "Fairscore", root_path, class: "navbar-brand" %>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent">
     <span class="navbar-toggler-icon"></span>
@@ -6,6 +6,9 @@
 
   <div class="collapse navbar-collapse" id="navbarContent">
     <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <%= link_to 'Media', media_index_path, class: 'nav-link' %>
+      </li>
       <% if logged_in? %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -19,7 +22,10 @@
         </li>
       <% else %>
         <li class="nav-item">
-          <%= link_to "Log in", login_path %>
+          <%= link_to "Register", register_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Log in", login_path, class: 'nav-link' %>
         </li>
       <% end %>
     </ul>
