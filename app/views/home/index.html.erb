@@ -1,8 +1,13 @@
 <% provide(:title, "Fairscore") %>
 
-<h2>Welcome to Fairscore</h2>
-<p>Too long has media been unfairly rated due to the fickle whims of the average consumer. This web app stores user TV
-  show ratings and ranks based on the difference from the users mean rating.</p>
+<div class="row">
+  <h2>Welcome to Fairscore</h2>
+  <p>Too long has media been unfairly rated due to the fickle whims of the average consumer. This web app stores user TV
+    show ratings and ranks based on the difference from the users mean rating.</p>
+</div>
 
-<%= link_to 'Log in', login_path, class: 'btn btn-light'%>
-<%= link_to 'Register', register_path, class: 'btn btn-primary' %>
+<div class="row">
+  <%= link_to 'Log in', login_path, class: 'btn btn-light m-1'%>
+  <%= link_to 'Register', register_path, class: 'btn btn-primary m-1' %>
+</div>
+

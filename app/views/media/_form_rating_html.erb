@@ -1,0 +1,12 @@
+<%= form_with url: rate_media_path(media), method: :put, class: 'form-inline', local: true do |form| %>
+  <%= render 'layouts/form_errors', model: rating %>
+  <div class="form-group form-group-sm">
+    <%= form.label :status_id, class: 'mr-2' %>
+    <%= form.collection_select :status_id, @statuses, :id, :label, {}, class: 'form-control form-control-sm mr-2' %>
+  </div>
+  <div class="form-group form-group-sm">
+    <%= form.label :score, class: 'mr-2' %>
+    <%= form.select :score, (0..10), { prompt: '-' }, { class: 'form-control form-control-sm mr-2' } %>
+  </div>
+  <%= form.submit 'Update', class: 'btn btn-sm btn-primary mr-1' %>
+<% end %>

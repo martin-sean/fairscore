@@ -1,11 +1,16 @@
-<div class="d-flex w-100 justify-content-between">
-  <h5 class="mb-1"><%= @media.title %></h5>
-  <small><%= @media.zscore %></small>
-</div>
-<p class="mb-1"><%= @media.year %></p>
-<small><%= @media.users.count %> users</small>
-<div class="d-flex w-100 justify-content-between">
-  <td><%= link_to 'Show', @media %></td>
-  <td><%= link_to 'Edit', edit_media_path(@media) %></td>
-  <td><%= link_to 'Destroy', @media, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<% provide(:title, @media.title) %>
+
+<h2 class="mb-1"><%= @media.title %> <small class="text-muted">(<%= @media.year %>)</small></h2>
+<p><%= @media.zscore.present? ? @media.zscore : 'No score yet' %></p>
+<p><%= @media.info %></p>
+<p><%= @media.users.count %> users</p>
+<div class="d-flex justify-content-end">
+  <% if @rating.nil? %>
+    <%= link_to ' + ', rate_media_path(@media), { method: :post, class: 'btn btn-sm btn-primary m-1' } %>
+  <% else %>
+    <%= link_to ' - ', unrate_media_path(@rating), { method: :delete, class: 'btn btn-sm btn-danger m-1'} %>
+  <% end %>
+
+  <%= link_to 'Edit', edit_media_path, class: 'btn btn-sm btn-info m-1' %>
+  <%= link_to 'Destroy', @media, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger m-1' %>
 </div>

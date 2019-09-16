@@ -6,7 +6,8 @@ class SessionController < ApplicationController
 
   # POST /login
   def create
-    params.inspect
+    return if logged_in?
+
     user = User.find_by(username: params[:session][:username])
     if user && user.authenticate(params[:session][:password])
       log_in user

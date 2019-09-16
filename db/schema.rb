@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_15_094919) do
+ActiveRecord::Schema.define(version: 2019_09_16_092022) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name", null: false
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2019_09_15_094919) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["media_id"], name: "index_ratings_on_media_id"
     t.index ["status_id"], name: "index_ratings_on_status_id"
+    t.index ["user_id", "status_id"], name: "index_ratings_on_user_id_and_status_id"
     t.index ["user_id"], name: "index_ratings_on_user_id"
   end
 

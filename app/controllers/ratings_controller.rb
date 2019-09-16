@@ -1,52 +1,33 @@
 class RatingsController < ApplicationController
-  before_action :set_rating, only: [:show, :edit, :update, :destroy]
-
-  # GET /ratings
-  # GET /ratings.json
-  def index
-    @ratings = Rating.all
-  end
-
-  # GET /ratings/1
-  # GET /ratings/1.json
-  def show
-  end
-
-  # GET /ratings/new
-  def new
-    @rating = Rating.new
-  end
-
-  # GET /ratings/1/edit
-  def edit
-  end
+  before_action :set_rating, only: [:update, :destroy]
 
   # POST /ratings
   # POST /ratings.json
   def create
-    @rating = Rating.new(rating_params)
+    @rating = Rating.new
+    @rating.media_id = params[:id]
+    @rating.status_id = 0
+    @rating.user = current_user
 
-    respond_to do |format|
-      if @rating.save
-        format.html { redirect_to @rating, notice: 'Rating was successfully created.' }
-        format.json { render :show, status: :created, location: @rating }
-      else
-        format.html { render :new }
-        format.json { render json: @rating.errors, status: :unprocessable_entity }
-      end
+    unless @rating.save
+      flash[:danger] = 'Something went wrong while saving the rating.'
     end
+
+    redirect_to media_path
   end
 
   # PATCH/PUT /ratings/1
   # PATCH/PUT /ratings/1.json
   def update
+    # TODO: id is currently Media id, not ratings id. Sort it out.
+
     respond_to do |format|
       if @rating.update(rating_params)
-        format.html { redirect_to @rating, notice: 'Rating was successfully updated.' }
-        format.json { render :show, status: :ok, location: @rating }
+        format.html { redirect_to @media, flash[:info] = 'Rating was successfully updated.' }
+        format.json { render :show, status: :ok, location: @media }
       else
         format.html { render :edit }
-        format.json { render json: @rating.errors, status: :unprocessable_entity }
+        format.json { render json: @media.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,7 +37,7 @@ class RatingsController < ApplicationController
   def destroy
     @rating.destroy
     respond_to do |format|
-      format.html { redirect_to ratings_url, notice: 'Rating was successfully destroyed.' }
+      format.html { redirect_to media_url, flash[:info] = 'Rating was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +50,7 @@ class RatingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rating_params
-      params.require(:rating).permit(:user_id, :media_id, :score)
+      params.require(:rating).permit(:media_id, :status_id, :score)
     end
+
 end

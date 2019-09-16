@@ -13,7 +13,10 @@
       <div class="form-group">
         <%= form.password_field :password_confirmation, class: 'form-control', placeholder: 'Confirm Password' %>
       </div>
-      <%= form.submit "Confirm", class: 'btn btn-primary' %>
+      <div class="form-group">
+        <%= form.submit "Confirm", class: 'btn btn-primary' %>
+      </div>
     <% end %>
+    <small class="text-muted">If you already have an account, <%= link_to "Log in here.", login_path %></small>
   </div>
 </div>

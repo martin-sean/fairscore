@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
   resources :users
-  resources :ratings
-  resources :statuses
-  resources :media
+  resources :media do
+    member do
+      post '/rate', to: 'ratings#create'
+      put '/rate', to: 'ratings#update'
+      delete '/unrate', to: 'ratings#destroy'
+    end
+  end
   resources :genres
   resources :directors
   resources :actors
