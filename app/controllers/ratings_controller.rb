@@ -9,11 +9,13 @@ class RatingsController < ApplicationController
     @rating.status_id = 0
     @rating.user = current_user
 
-    unless @rating.save
+    if @rating.save
+      flash[:success] = 'Rating was added.'
+    else
       flash[:danger] = 'Something went wrong while saving the rating.'
     end
 
-    redirect_to media_path
+    redirect_to params[:source]
   end
 
   # PATCH/PUT /ratings/1
@@ -23,7 +25,8 @@ class RatingsController < ApplicationController
 
     respond_to do |format|
       if @rating.update(rating_params)
-        format.html { redirect_to @media, flash[:info] = 'Rating was successfully updated.' }
+        flash[:info] = 'Rating was successfully updated.'
+        format.html { redirect_to params[:source] }
         format.json { render :show, status: :ok, location: @media }
       else
         format.html { render :edit }
@@ -32,12 +35,14 @@ class RatingsController < ApplicationController
     end
   end
 
-  # DELETE /ratings/1
-  # DELETE /ratings/1.json
+  # DELETE /media/:media_id/unrate
+  # DELETE /media/:media_id/unrate
   def destroy
     @rating.destroy
     respond_to do |format|
-      format.html { redirect_to media_url, flash[:info] = 'Rating was successfully destroyed.' }
+      flash[:info] = 'Rating was removed.'
+      # format.html { redirect_to media_path(params[:media_id]) }
+      format.html { redirect_to params[:source] }
       format.json { head :no_content }
     end
   end

@@ -4,13 +4,19 @@
 <p><%= @media.zscore.present? ? @media.zscore : 'No score yet' %></p>
 <p><%= @media.info %></p>
 <p><%= @media.users.count %> users</p>
-<div class="d-flex justify-content-end">
-  <% if @rating.nil? %>
-    <%= link_to ' + ', rate_media_path(@media), { method: :post, class: 'btn btn-sm btn-primary m-1' } %>
-  <% else %>
-    <%= link_to ' - ', unrate_media_path(@rating), { method: :delete, class: 'btn btn-sm btn-danger m-1'} %>
-  <% end %>
 
-  <%= link_to 'Edit', edit_media_path, class: 'btn btn-sm btn-info m-1' %>
-  <%= link_to 'Destroy', @media, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger m-1' %>
-</div>
+<%# TODO: Customize this page, should be sufficently different from media list that partials are not required %>
+<% if logged_in? %>
+  <div class="d-flex justify-content-end">
+    <%# If current user has not rated media %>
+    <% rating = @media.ratings.select {|r| r.user_id == current_user.id}.first %>
+    <% if rating.nil? %>
+      <%= link_to ' + ', rate_media_path(@media, source: media_index_path), { method: :post, class: 'btn btn-sm btn-primary m-1' } %>
+    <% else %>
+      <%= render 'form_rating_html', media: @media, rating: rating %>
+      <%= link_to ' - ', unrate_media_path(id: rating, media_id: @media, source: media_index_path), { method: :delete, class: 'btn btn-sm btn-danger m-1'} %>
+    <% end %>
+    <%= link_to 'Edit', edit_media_path(@media), method: :get, class: 'btn btn-sm btn-info m-1' %>
+    <%= link_to 'Destroy', @media, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger m-1' %>
+  </div>
+<% end %>
