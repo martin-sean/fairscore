@@ -5,7 +5,7 @@ class MediaController < ApplicationController
   # GET /media
   # GET /media.json
   def index
-    @media = Media.all.includes(:users)
+    @media = Media.includes(:users)
   end
 
   # GET /media/1
@@ -66,11 +66,11 @@ class MediaController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_media
-      @media = Media.find(params[:id])
+      @media ||= Media.find(params[:id])
     end
 
     def set_statuses
-      @statuses = Status.all
+      @statuses ||= Status.all
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
