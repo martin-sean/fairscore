@@ -5,7 +5,7 @@ class MediaController < ApplicationController
   # GET /media
   # GET /media.json
   def index
-    @media = Media.all
+    @media = Media.all.includes(:users)
   end
 
   # GET /media/1
