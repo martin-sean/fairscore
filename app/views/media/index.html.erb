@@ -3,12 +3,11 @@
 <h2>Media list</h2>
 
 <div class="list-group">
-  <%= current_user.rating_sum %>
   <% @media.each do |media| %>
     <div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
       <a href="<%= media_path media %>">
         <div class="d-flex align-items-stretch justify-content-between">
-          <h4 class="mb-1"><%= media.title %> <small class="text-muted">(<%= media.year %>)</small></h4>
+          <h4 class="mb-1"><%= media.title %><% if media.year %> <small class="text-muted">(<%= media.year %>)</small><% end %></h4>
           <small><%= media.zscore.present? ? media.zscore : 'No score yet' %></small>
         </div>
         <small><%= media.users.length %> users</small>

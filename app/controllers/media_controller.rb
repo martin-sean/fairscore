@@ -1,3 +1,5 @@
+include MediaRatingMaths
+
 class MediaController < ApplicationController
   before_action :set_media, only: [:show, :edit, :update, :destroy]
   before_action  :set_statuses, only: [:index, :show]
@@ -56,9 +58,17 @@ class MediaController < ApplicationController
   # DELETE /media/1
   # DELETE /media/1.json
   def destroy
-    @media.destroy
+    success = ActiveRecord::Base.transaction do
+      # Remove rating scores from all users who have rated
+      @media.ratings.each do |rating|
+        update_user_scores(rating, 0, rating.score.to_i)
+      end
+      @media.destroy
+    end
+
+    flash[success ? :info : :danger] = success ? 'Media was successfully destroyed.' : 'Media could not be destroyed.'
     respond_to do |format|
-      format.html { redirect_to media_index_url, notice: 'Media was successfully destroyed.' }
+      format.html { redirect_to media_index_url }
       format.json { head :no_content }
     end
   end

@@ -1,5 +1,5 @@
 <%# Renders score form: *** Status [ Watching v] Score [ - v] [ Update ] *** %>
-<%= form_with model: rating, url: rate_media_path(media, source: source), method: :put, class: 'form-inline', local: true do |form| %>
+<%= form_with model: rating, url: rate_media_path(rating, media_id: media, source: source), method: :put, class: 'form-inline', local: true do |form| %>
   <%= render 'layouts/form_errors', model: rating %>
   <div class="form-group form-group-sm">
     <%= form.label :status_id, class: 'mr-2' %>
@@ -7,7 +7,7 @@
   </div>
   <div class="form-group form-group-sm">
     <%= form.label :score, class: 'mr-2' %>
-    <%= form.select :score, (Rating::MIN..Rating::MAX), { prompt: '-' }, { class: 'form-control form-control-sm mr-2' } %>
+    <%= form.select :score, (Rating::MIN..Rating::MAX), { include_blank: true }, { class: 'form-control form-control-sm mr-2' } %>
   </div>
   <%= form.submit 'Update', class: 'btn btn-sm btn-primary mr-1' %>
 <% end %>

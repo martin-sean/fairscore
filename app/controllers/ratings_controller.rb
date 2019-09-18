@@ -1,3 +1,5 @@
+include MediaRatingMaths
+
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:update, :destroy]
 
@@ -15,41 +17,39 @@ class RatingsController < ApplicationController
 
   # PUT /media/:media_id/rate
   def update
-    # Validate score
-    unless params[:score].between?(Rating::MIN, Rating::MAX)
+    # Validate new score
+    unless rating_params[:score].to_i.between?(Rating::MIN, Rating::MAX)
       flash[:danger] = 'Score was not valid'
       redirect_to params[:source]
     end
 
     # Enforce all updates occur or not at all
     success = ActiveRecord::Base.transaction do
-      old_score = @rating.score
+      old_score = @rating.score.to_i # nil scores -> 0
       @rating.update(rating_params)
-      update_user_scores(old_score)
+      update_user_scores(@rating, @rating.score.to_i, old_score)
     end
 
     flash[success ? :info : :danger] = success ? 'Rating was successfully updated.' : 'Rating update failed.'
     redirect_to params[:source]
   end
 
-  # Update the sums of user scores during rating updates
-  def update_user_scores(old_score)
-    @rating.user.rating_sum += @rating.score - old_score
-    @rating.user.rating_sum_of_squares += @rating.score**2 - old_score**2
-    @rating.save
-  end
-
   # DELETE /media/:media_id/unrate
   def destroy
-    @rating.destroy
-    flash[:info] = 'Rating was removed.'
+    # Ensure all updates occur or not at all
+    success = ActiveRecord::Base.transaction do
+      update_user_scores(@rating, 0, @rating.score.to_i)
+      @rating.destroy
+    end
+
+    flash[success ? :info : :danger] = success ? 'Rating was removed.' : 'Rating could not be removed.'
     redirect_to params[:source]
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_rating
-      @rating = Rating.find(params[:id]).includes(user: current_user)
+      @rating = Rating.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
