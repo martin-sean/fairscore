@@ -6,25 +6,37 @@ class RatingsController < ApplicationController
     @rating = Rating.new
     @rating.media_id = params[:id] # :id param is the media_id being rated
     @rating.status_id = 0
-    @rating.user = current_user
+    @rating.user_id = current_user.id
 
-    if @rating.save
-      flash[:success] = 'Rating was added.'
-    else
-      flash[:danger] = 'Something went wrong while saving the rating.'
-    end
-
+    success = @rating.save
+    flash[success ? :info : :danger] = success ? 'Rating was added.' : 'Something went wrong while saving the rating.'
     redirect_to params[:source]
   end
 
-  # PATCH/PUT /media/:media_id/rate
+  # PUT /media/:media_id/rate
   def update
-    if @rating.update(rating_params)
-      flash[:info] = 'Rating was successfully updated.'
+    # Validate score
+    unless params[:score].between?(Rating::MIN, Rating::MAX)
+      flash[:danger] = 'Score was not valid'
       redirect_to params[:source]
-    else
-      render :edit
     end
+
+    # Enforce all updates occur or not at all
+    success = ActiveRecord::Base.transaction do
+      old_score = @rating.score
+      @rating.update(rating_params)
+      update_user_scores(old_score)
+    end
+
+    flash[success ? :info : :danger] = success ? 'Rating was successfully updated.' : 'Rating update failed.'
+    redirect_to params[:source]
+  end
+
+  # Update the sums of user scores during rating updates
+  def update_user_scores(old_score)
+    @rating.user.rating_sum += @rating.score - old_score
+    @rating.user.rating_sum_of_squares += @rating.score**2 - old_score**2
+    @rating.save
   end
 
   # DELETE /media/:media_id/unrate
@@ -37,7 +49,7 @@ class RatingsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_rating
-      @rating = Rating.find(params[:id])
+      @rating = Rating.find(params[:id]).includes(user: current_user)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -3,6 +3,7 @@
 <h2>Media list</h2>
 
 <div class="list-group">
+  <%= current_user.rating_sum %>
   <% @media.each do |media| %>
     <div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
       <a href="<%= media_path media %>">

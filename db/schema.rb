@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_16_092022) do
+ActiveRecord::Schema.define(version: 2019_09_18_084818) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name", null: false
@@ -84,10 +84,10 @@ ActiveRecord::Schema.define(version: 2019_09_16_092022) do
     t.string "username", null: false
     t.string "password_digest", null: false
     t.string "remember_digest"
-    t.float "media_score_mean"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.float "meanscore"
+    t.integer "rating_sum"
+    t.integer "rating_sum_of_squares"
   end
 
   add_foreign_key "media_actors", "actors"
