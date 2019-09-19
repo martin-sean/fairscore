@@ -1,4 +1,4 @@
-include MediaRatingMaths
+include UserMediaRatingMaths
 
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:update, :destroy]

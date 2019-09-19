@@ -1,4 +1,4 @@
-include MediaRatingMaths
+include UserMediaRatingMaths
 
 class MediaController < ApplicationController
   before_action :set_media, only: [:show, :edit, :update, :destroy]
