@@ -3,7 +3,7 @@
 <h2 class="mb-1"><%= @media.title %><% if @media.year %> <small class="text-muted">(<%= @media.year %>)</small><% end %></h2>
 <p><%= @media.zscore.present? ? @media.zscore : 'No score yet' %></p>
 <p><%= @media.info %></p>
-<p><%= @media.users.count %> users</p>
+<p><%= @media.users.length %> users</p>
 
 <%# TODO: Customize this page, should be sufficiently different from media list that partials are not required %>
 <% if logged_in? %>
@@ -11,10 +11,10 @@
     <%# If current user has not rated media %>
     <% rating = @media.ratings.select {|r| r.user_id == current_user.id}.first %>
     <% if rating.nil? %>
-      <%= button_to 'Add to list', rate_media_path(@media, source: media_path), { method: :post, class: 'btn btn-sm btn-primary m-1' } %>
+      <%= button_to 'Add to list', media_ratings_path(media_id: @media), method: :post, class: 'btn btn-sm btn-primary m-1' %>
     <% else %>
-      <%= render 'form_rating_html', { media: @media, rating: rating, source: media_path } %>
-      <%= button_to 'Remove from list', unrate_media_path(id: rating, media_id: @media, source: media_path), { method: :delete, class: 'btn btn-sm btn-danger m-1'} %>
+      <%= render 'form_rating_html', media: @media, rating: rating %>
+      <%= button_to 'Remove from list', media_ratings_path(id: rating, media_id: @media), method: :delete, class: 'btn btn-sm btn-danger m-1' %>
     <% end %>
     <%= button_to 'Edit', edit_media_path(@media), method: :get, class: 'btn btn-sm btn-info m-1' %>
     <%= button_to 'Destroy', @media, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger m-1' %>

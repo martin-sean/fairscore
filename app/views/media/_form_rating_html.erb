@@ -1,5 +1,5 @@
 <%# Renders score form: *** Status [ Watching v] Score [ - v] [ Update ] *** %>
-<%= form_with model: rating, url: rate_media_path(rating, media_id: media, source: source), method: :put, class: 'form-inline', local: true do |form| %>
+<%= form_with model: rating, url: media_ratings_path(rating, media_id: media), method: :patch, class: 'form-inline', local: true do |form| %>
   <%= render 'layouts/form_errors', model: rating %>
   <div class="form-group form-group-sm">
     <%= form.label :status_id, class: 'mr-2' %>

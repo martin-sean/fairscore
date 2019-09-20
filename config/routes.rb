@@ -1,11 +1,7 @@
 Rails.application.routes.draw do
   resources :users
   resources :media do
-    member do
-      post '/rate', to: 'ratings#create'
-      put '/rate', to: 'ratings#update'
-      delete '/unrate', to: 'ratings#destroy'
-    end
+    resource :ratings, only: [:create, :update, :destroy]
   end
   resources :genres
   resources :directors

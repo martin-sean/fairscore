@@ -76,7 +76,7 @@ class MediaController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_media
-      @media = Media.find(params[:id])
+      @media = Media.includes(:users).find(params[:id])
     end
 
     def set_rating
