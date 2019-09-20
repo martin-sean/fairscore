@@ -2,6 +2,7 @@ include UserMediaRatingMaths
 
 class MediaController < ApplicationController
   before_action :set_media, only: [:show, :edit, :update, :destroy]
+  before_action :set_rating, only: [:show]
   before_action  :set_statuses, only: [:index, :show]
 
   # GET /media
@@ -13,7 +14,6 @@ class MediaController < ApplicationController
   # GET /media/1
   # GET /media/1.json
   def show
-    @rating = Rating.find_by(media_id: params[:id], user_id: current_user)
   end
 
   # GET /media/new
@@ -76,11 +76,15 @@ class MediaController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_media
-      @media ||= Media.find(params[:id])
+      @media = Media.find(params[:id])
+    end
+
+    def set_rating
+      @rating = Rating.find_by(media_id: params[:id], user_id: current_user)
     end
 
     def set_statuses
-      @statuses ||= Status.all
+      @statuses = Status.all
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
