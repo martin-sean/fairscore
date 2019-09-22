@@ -17,6 +17,6 @@ module Fairscore
     # the framework and any gems in your application.
 
     # Request job queue
-    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_adapter = Rails.env.production? ? :active_elastic_job : :sidekiq
   end
 end
