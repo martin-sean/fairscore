@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_20_034906) do
+ActiveRecord::Schema.define(version: 2019_09_23_091934) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name", null: false
@@ -40,7 +40,8 @@ ActiveRecord::Schema.define(version: 2019_09_20_034906) do
     t.string "info"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.float "zscore"
+    t.float "zscore_sum", default: 0.0, null: false
+    t.integer "scored_ratings", default: 0, null: false
   end
 
   create_table "media_actors", force: :cascade do |t|
@@ -68,6 +69,7 @@ ActiveRecord::Schema.define(version: 2019_09_20_034906) do
     t.integer "score"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "zscore"
     t.index ["media_id"], name: "index_ratings_on_media_id"
     t.index ["status_id"], name: "index_ratings_on_status_id"
     t.index ["user_id", "status_id"], name: "index_ratings_on_user_id_and_status_id"

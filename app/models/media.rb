@@ -7,4 +7,9 @@ class Media < ApplicationRecord
 
   UPDATE_RATE = 30.minutes
   TEST_FAST_UPDATE_RATE = 10.seconds
+
+  # Do not allow empty strings
+  strip_attributes
+  # Force Title
+  validates :title, presence: true
 end
