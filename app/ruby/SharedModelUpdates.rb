@@ -9,18 +9,10 @@ module SharedModelUpdates
     [new_rating_sum, new_rating_sum_of_squares]
   end
 
-  # Update z-scores for all other user ratings
+  # Start a new job to update the zscores related to a given rating that was changed.
+  # Jobs use FIFO queue to prevent data loss from multiple requests
   def update_rating_media_zscores(changed_rating)
-    changed_rating.user.ratings.each do |rating|
-      # Skip rating if it was the modified rating or the rating has no score
-      next if rating.id == changed_rating.id || rating.score.blank?
-
-      new_zscore = calc_z_score(rating.score.to_i, rating.user.rating_sum, rating.user.rating_sum_of_squares, rating.user.reload.scored_ratings)
-      rating.media.zscore_sum += new_zscore - rating.zscore
-      rating.zscore = new_zscore
-      rating.media.save
-      rating.save
-    end
+    MediaZscoresUpdateJob.perform_later(changed_rating)
   end
 
 end
