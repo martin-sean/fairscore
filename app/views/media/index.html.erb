@@ -8,7 +8,7 @@
       <a href="<%= media_path media %>">
         <div class="d-flex align-items-stretch justify-content-between">
           <h4 class="mb-1"><%= media.title %><% if media.year %> <small class="text-muted">(<%= media.year %>)</small><% end %></h4>
-          <small><%= media.zscore_sum %></small>
+          <small><%= "%.8f" % media.zscore_sum %></small>
         </div>
         <small><%= media.users.length %> users</small>
       </a>

@@ -7,7 +7,6 @@ module UserMediaRatingMaths
 
   # Calculate the standard deviation given the sum, squared sum and count
   def calc_std_dev(sum, sum_sq, n)
-
     n > 0 ? Math.sqrt(calc_mean(sum_sq, n) - calc_mean(sum, n)**2) : 0 # Return 0 if n is not a positive integer
   end
 
