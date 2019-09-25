@@ -1,4 +1,4 @@
-include UserMediaRatingMaths
+include UserMediaRatingMaths, SharedModelUpdates
 
 class MediaController < ApplicationController
   before_action :set_media, only: [:show, :edit, :update, :destroy]
@@ -61,7 +61,9 @@ class MediaController < ApplicationController
     success = ActiveRecord::Base.transaction do
       # Remove rating scores from all users who have rated
       @media.ratings.each do |rating|
-        update_user_scores(rating, 0, rating.score.to_i)
+        # Update the user sum scores and media zscores for deleted media ratings
+        update_user_sum_scores(rating, 0, rating.score.to_i)
+        update_rating_media_zscores(rating)\\
       end
       @media.destroy
     end
