@@ -2,14 +2,10 @@ include UserMediaRatingMaths
 
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:update, :destroy]
-  after_action :update_media_zscores, only: [:update, :destroy]
 
   # POST /media/:media_id/rating
   def create
-    @rating = Rating.new
-    @rating.media_id = params[:media_id]
-    @rating.status_id = 0
-    @rating.user_id = current_user.id
+    @rating = Rating.new(user_id: current_user.id, media_id: params[:media_id], status_id: 0)
     success = @rating.save
     flash[success ? :info : :danger] = success ? 'Rating was added.' : 'Something went wrong while saving the rating.'
     redirect_back fallback_location: root_path
@@ -23,22 +19,30 @@ class RatingsController < ApplicationController
       redirect_back fallback_location: root_path
     end
 
-    success = ActiveRecord::Base.transaction do
-      new_score = rating_params[:score]
-      old_score = @rating.score
-      # Calculate and update user sum scores
-      new_rating_sum, new_rating_sum_of_squares = update_user_sum_scores(@rating, new_score, old_score)
-      # Determine the new scored rating count (counter cache hasn't updated yet)
-      count = @rating.user.scored_ratings + ((new_score.blank? && old_score.present?) ? -1 : (new_score.present? && old_score.blank?) ? 1 : 0)
-      # Calculate the new rating zscore and media zscore sum
-      zscore = new_score.present? ? calc_z_score(new_score.to_i, new_rating_sum, new_rating_sum_of_squares, count) : 0
-      @rating.media.zscore_sum += zscore - @rating.zscore.to_f
-      @rating.media.save
-      @rating.update(score: new_score, status_id: rating_params[:status_id], zscore: zscore)
-      @rating.save
+    new_score = rating_params[:score]
+    old_score = @rating.score
+    # Determine if score added (+1), score removed (-1) or no change (0)
+    score_count_change = ((new_score.present? && old_score.blank?) ? 1 : (new_score.blank? && old_score.present?) ? -1 : 0)
+    # Don't update media zscore sums if score nil -> nil or no change to score
+    do_update = score_count_change != 0 || new_score.to_i != old_score.to_i
+
+    if do_update # Skip transaction if no change
+      success = ActiveRecord::Base.transaction do
+        # Calculate and update user sum scores
+        new_rating_sum, new_rating_sum_of_squares = update_user_sum_scores(@rating, new_score, old_score)
+        count = @rating.user.scored_ratings + score_count_change
+        # Calculate the new rating zscore and media zscore sum
+        zscore = new_score.present? ? calc_z_score(new_score.to_i, new_rating_sum, new_rating_sum_of_squares, count) : 0
+        @rating.media.zscore_sum += zscore - @rating.zscore.to_f
+        @rating.media.save
+        @rating.update(score: new_score, status_id: rating_params[:status_id], zscore: zscore)
+        @rating.save
+      end
+
+      update_media_zscores(do_update) if success
+      flash[success ? :info : :danger] = success ? 'Rating was successfully updated.' : 'Rating update failed.'
     end
 
-    flash[success ? :info : :danger] = success ? 'Rating was successfully updated.' : 'Rating update failed.'
     redirect_back fallback_location: root_path
   end
 
@@ -46,12 +50,17 @@ class RatingsController < ApplicationController
   def destroy
     # Update user scores and destroy rating
     success = ActiveRecord::Base.transaction do
-      update_user_sum_scores(@rating, 0, @rating.score)
-      # Update the current rating's media's zscore_sum
-      @rating.media.zscore_sum -= @rating.zscore.to_f
-      @rating.media.save
+      # Update media if the rating has a score
+      if @rating.score.present?
+        update_user_sum_scores(@rating, 0, @rating.score)
+        # Update the current rating's media's zscore_sum
+        @rating.media.zscore_sum -= @rating.zscore.to_f
+        @rating.media.save
+      end
       @rating.destroy
     end
+
+    update_media_zscores(true) if success
     flash[success ? :info : :danger] = success ? 'Rating was removed.' : 'Rating could not be removed.'
     redirect_back fallback_location: root_path
   end
@@ -59,7 +68,7 @@ class RatingsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_rating
-      @rating = Rating.find_by(user_id: current_user.id, media_id: params[:media_id])
+      @rating = Rating.includes(:user).find_by(user_id: current_user.id, media_id: params[:media_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -77,7 +86,9 @@ class RatingsController < ApplicationController
     end
 
     # Update z-scores for all other user ratings
-    def update_media_zscores
+    def update_media_zscores(do_update)
+      return unless do_update
+
       @rating.user.ratings.each do |rating|
         # Skip rating if it was the modified rating or the rating has no score
         next if rating.id == @rating.id || rating.score.blank?

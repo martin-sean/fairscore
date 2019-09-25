@@ -16,4 +16,5 @@ module UserMediaRatingMaths
     mean = calc_mean(sum, n)
     std_dev != 0 ? (value - mean).fdiv(std_dev) : 0 # Don't evaluate if the std dev is 0
   end
+
 end

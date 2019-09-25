@@ -11,3 +11,4 @@
   </div>
   <%= form.submit 'Update', class: 'btn btn-sm btn-primary mr-1' %>
 <% end %>
+<%= button_to 'Remove', media_ratings_path(media, rating), method: :delete, class: 'btn btn-sm btn-danger m-1' %>
