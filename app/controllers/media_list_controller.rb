@@ -1,6 +1,6 @@
 class MediaListController < ApplicationController
 
-  before_action :set_media, only: [:index]
+  before_action :set_ratings, only: [:index]
   before_action :set_statuses, only: [:index]
 
   # GET /medialist
@@ -8,8 +8,8 @@ class MediaListController < ApplicationController
   end
 
   private
-    def set_media
-      @status_ratings = current_user.ratings.group_by(&:status_id)
+    def set_ratings
+      @status_ratings = current_user.ratings.includes(media: :ratings).group_by(&:status_id)
     end
 
     def set_statuses
