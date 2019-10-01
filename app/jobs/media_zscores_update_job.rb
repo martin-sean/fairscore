@@ -1,3 +1,5 @@
+include UserMediaRatingMaths
+
 class MediaZscoresUpdateJob < ApplicationJob
   queue_as :default
 

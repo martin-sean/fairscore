@@ -1,5 +1,5 @@
 require 'test_helper'
-include UserMediaRatingMaths
+require UserMediaRatingMaths
 
 class MyTest < ActiveSupport::TestCase
 

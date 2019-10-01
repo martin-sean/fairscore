@@ -86,7 +86,9 @@ class MediaController < ApplicationController
     end
 
     def set_statuses
-      @statuses = Status.all
+      @statuses = Rails.cache.fetch("statuses") do
+        @statuses = Status.all
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

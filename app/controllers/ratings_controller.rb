@@ -23,8 +23,8 @@ class RatingsController < ApplicationController
     old_score = @rating.score
     # Determine if score added (+1), score removed (-1) or no change (0)
     score_count_change = ((new_score.present? && old_score.blank?) ? 1 : (new_score.blank? && old_score.present?) ? -1 : 0)
-    # Don't update media zscore sums if score nil -> nil or no change to score
-    do_update = score_count_change != 0 || new_score.to_i != old_score.to_i
+    # Don't update media zscore sums if score nil -> nil, no change to score or no change to status
+    do_update = score_count_change != 0 || new_score.to_i != old_score.to_i || rating_params[:status_id] != @rating.status_id
 
     if do_update # Skip transaction if no change
       success = ActiveRecord::Base.transaction do
