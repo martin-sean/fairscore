@@ -1,0 +1,9 @@
+<% provide(:title, 'Discover Top') %>
+
+<h3>Top Media</h3>
+<div class="row">
+  <% get_top_movies['results'].each do |movie| %>
+    <% media = @media.detect {|m| m.id == movie['id']} %>
+    <%= render 'media', movie: movie, media: media %>
+  <% end %>
+</div>

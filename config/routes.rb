@@ -8,10 +8,13 @@ Rails.application.routes.draw do
   resources :actors
 
   root 'home#index'
-  get  '/register', to: 'users#new'
+  get  '/register', to: 'users#index'
   post '/register', to: 'users#create'
   get '/login', to: 'session#new'
   post '/login', to: 'session#create'
   delete '/logout', to: 'session#destroy'
   get '/medialist', to: 'media_list#index'
+  get '/discover/new', to: 'discover#new'
+  get '/discover/top', to: 'discover#top'
+  post '/discover/add', to: 'discover#add_mdb_movie'
 end

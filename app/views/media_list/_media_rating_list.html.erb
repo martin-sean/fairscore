@@ -5,7 +5,7 @@
       <a href="<%= media_path media %>">
         <div class="d-flex align-items-stretch justify-content-between">
           <h4 class="mb-1"><%= media.title %><% if media.year %> <small class="text-muted">(<%= media.year %>)</small><% end %></h4>
-          <small><%= "%.8f" % media.zscore_sum %></small>
+          <small><%= get_media_score(media) %></small>
         </div>
         <small><%= media.scored_ratings %> <%= 'user'.pluralize(media.scored_ratings) %></small>
       </a>

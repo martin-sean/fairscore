@@ -6,8 +6,11 @@
     show ratings and ranks based on the difference from the users mean rating.</p>
 </div>
 
-<div class="row">
-  <%= link_to 'Log in', login_path, class: 'btn btn-light m-1'%>
-  <%= link_to 'Register', register_path, class: 'btn btn-primary m-1' %>
-</div>
+<% unless logged_in? %>
+  <div class="row">
+    <%= link_to 'Log in', login_path, class: 'btn btn-light m-1'%>
+    <%= link_to 'Register', register_path, class: 'btn btn-primary m-1' %>
+  </div>
+<% end %>
+
 

@@ -8,8 +8,8 @@
       <a href="<%= media_path media %>">
         <div class="d-flex align-items-stretch justify-content-between">
           <h4 class="mb-1"><%= media.title %><% if media.year %> <small class="text-muted">(<%= media.year %>)</small><% end %></h4>
-          <%# TODO: Move temporary caculation to another method %>
-          <small><%= "%.2f" % ((media.zscore_sum) * 2 + 5) + ' / 10' %></small>
+          <%# TODO: Move temporary calculation to another method %>
+          <small><%= get_media_score(media) %></small>
         </div>
         <small><%= media.scored_ratings %> <%= 'user'.pluralize(media.scored_ratings) %></small>
       </a>
