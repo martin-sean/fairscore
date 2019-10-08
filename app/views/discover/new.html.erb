@@ -1,9 +1,4 @@
 <% provide(:title, 'Discover New') %>
 
 <h3>New Movies</h3>
-<div class="row">
-  <% get_new_movies['results'].each do |movie| %>
-    <% media = @media.detect {|m| m.id == movie['id']} %>
-    <%= render 'media', movie: movie, media: media %>
-  <% end %>
-</div>
+<%= render 'results' %>

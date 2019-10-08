@@ -1,12 +1,22 @@
+include MovieDbAPI
+
 class DiscoverController < ApplicationController
-  before_action :set_media, only: [:new, :top]
+  before_action :set_media, only: [:new, :top, :search]
 
   # GET /discover/new
   def new
+    @results = get_new_movies['results']
   end
 
   # GET /discover/top
   def top
+    @results = get_top_movies['results']
+  end
+
+  # POST /discover/search
+  def search
+    @results = search_movies(params[:query])['results']
+    puts 'hi'
   end
 
   # POST /discover/add

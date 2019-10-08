@@ -30,6 +30,7 @@ module ApplicationHelper
   end
 
   def get_year_from_date(string)
+    return unless string.present?
     Date.strptime(string, '%Y-%m-%d').year
   end
 
