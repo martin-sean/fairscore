@@ -1,4 +1,4 @@
-include MovieDbAPI
+include TMDbAPI
 
 class DiscoverController < ApplicationController
   before_action :set_media, only: [:new, :top, :search]

@@ -1,5 +1,5 @@
 <%# Renders score form: *** Status [ Watching v] Score [ - v] [ Update ] *** %>
-<%= form_with model: rating, url: media_ratings_path(rating, media_id: media), method: :patch, class: 'form-inline', local: true do |form| %>
+<%= form_with model: rating, url: media_ratings_path(rating, media_id: media_id), method: :patch, class: 'form-inline', local: true do |form| %>
   <%= render 'layouts/form_errors', model: rating %>
   <div class="form-group form-group-sm">
     <%= form.label :status_id, class: 'mr-2' %>
@@ -11,4 +11,4 @@
   </div>
   <%= form.submit 'Update', class: 'btn btn-sm btn-primary mr-1' %>
 <% end %>
-<%= button_to 'Remove', media_ratings_path(media, rating), method: :delete, class: 'btn btn-sm btn-danger m-1' %>
+<%= button_to 'Remove', media_ratings_path(media_id, rating), method: :delete, class: 'btn btn-sm btn-danger m-1' %>

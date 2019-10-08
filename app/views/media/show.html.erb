@@ -1,20 +1,18 @@
-<% provide(:title, @media.title) %>
+<% provide(:title, @media['title']) %>
 
-<h2 class="mb-1"><%= @media.title %><% if @media.year %> <small class="text-muted">(<%= @media.year %>)</small><% end %></h2>
-<p><strong><%= get_media_score(@media) %></strong></p>
-<p><%= @media.info %></p>
-<small><%= @media.scored_ratings %> <%= 'user'.pluralize(@media.scored_ratings) %></small>
+<h2 class="mb-1"><%= @media['title'] %><small class="text-muted"> (<%= get_year_from_date(@media['release_date']) %>)</small></h2>
+<p><strong><%= get_media_score(@media['id']) %></strong></p>
+<p><%= @media['overview'] %></p>
+<!--<small><%#= @media.scored_ratings %> <%#= 'user'.pluralize(@media.scored_ratings) %></small>-->
 
 <%# TODO: Customize this page, should be sufficiently different from media list that partials are not required %>
 <% if logged_in? %>
   <div class="d-flex justify-content-end">
     <%# If current user has not rated media %>
     <% if @rating.blank? %>
-      <%= button_to 'Add to list', media_ratings_path(media_id: @media), method: :post, class: 'btn btn-sm btn-primary m-1' %>
+      <%= button_to 'Add to list', media_ratings_path(media_id: @media['id']), method: :post, class: 'btn btn-sm btn-primary m-1' %>
     <% else %>
-      <%= render 'shared/form_rating_html', media: @media, rating: @rating %>
+      <%= render 'shared/form_rating_html', media_id: @media['id'], rating: @rating %>
     <% end %>
-    <%= button_to 'Edit', edit_media_path(@media), method: :get, class: 'btn btn-sm btn-info m-1' %>
-    <%= button_to 'Destroy', @media, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger m-1' %>
   </div>
 <% end %>

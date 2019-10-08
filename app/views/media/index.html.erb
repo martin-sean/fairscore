@@ -3,31 +3,24 @@
 <h2>Media list</h2>
 
 <div class="list-group">
-  <% @media.each do |media| %>
+  <% @media_ids.each do |media_id| %>
+    <% media = get_media(media_id) %>
     <div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
-      <a href="<%= media_path media %>">
+      <a href="<%= media_path media_id %>">
         <div class="d-flex align-items-stretch justify-content-between">
-          <h4 class="mb-1"><%= media.title %><% if media.year %> <small class="text-muted">(<%= media.year %>)</small><% end %></h4>
+          <h4 class="mb-1"><%= media['title'] %><small class="text-muted"> (<%= get_year_from_date(media['release_date']) %>)</small></h4>
           <%# TODO: Move temporary calculation to another method %>
-          <small><%= get_media_score(media) %></small>
+          <small><%= get_media_score(media_id) %></small>
         </div>
-        <small><%= media.scored_ratings %> <%= 'user'.pluralize(media.scored_ratings) %></small>
+<!--        <small><%#= media.scored_ratings %> <%#= 'user'.pluralize(media.scored_ratings) %></small>-->
       </a>
       <% if logged_in? %>
        <div class="d-flex justify-content-end">
           <%# If current user has not rated media %>
-          <% rating = media.ratings.detect {|r| r.user_id == current_user.id} %>
-          <% if rating.nil? %>
-            <%= button_to 'Add to list', media_ratings_path(media), class: 'btn btn-sm btn-primary m-1' %>
-          <% else %>
-            <%= render 'shared/form_rating_html', media: media, rating: rating %>
-          <% end %>
-          <%= button_to 'Edit', edit_media_path(media), method: :get, class: 'btn btn-sm btn-info m-1' %>
-          <%= button_to 'Destroy', media, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger m-1' %>
+          <% rating = @ratings.detect {|r| r.user_id == current_user.id} %>
+          <%= render 'shared/form_rating_html', media_id: media_id, rating: rating %>
        </div>
       <% end %>
     </div>
   <% end %>
 </div>
-
-<%= button_to 'New Media', new_media_path, { method: :get, class: 'btn btn-primary mt-3' } %>

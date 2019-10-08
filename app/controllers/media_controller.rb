@@ -1,4 +1,4 @@
-include UserMediaRatingMaths, SharedModelUpdates
+include UserMediaRatingMaths, SharedModelUpdates, TMDbAPI
 
 class MediaController < ApplicationController
   before_action :set_media, only: [:show, :edit, :update, :destroy]
@@ -8,17 +8,13 @@ class MediaController < ApplicationController
   # GET /media
   # GET /media.json
   def index
-    @media = Media.includes(:ratings)
+    @ratings = Rating.distinct
+    @media_ids = @ratings.collect(&:media_id)
   end
 
   # GET /media/1
   # GET /media/1.json
   def show
-  end
-
-  # GET /media/new
-  def new
-    @media = Media.new
   end
 
   # GET /media/1/edit
@@ -78,7 +74,7 @@ class MediaController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_media
-      @media = Media.find(params[:id])
+      @media = get_media(params[:id])
     end
 
     def set_rating
