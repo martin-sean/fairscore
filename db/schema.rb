@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_24_002626) do
+ActiveRecord::Schema.define(version: 2019_10_09_103732) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name", null: false
@@ -97,7 +97,6 @@ ActiveRecord::Schema.define(version: 2019_09_24_002626) do
   add_foreign_key "media_actors", "media"
   add_foreign_key "media_genres", "genres"
   add_foreign_key "media_genres", "media"
-  add_foreign_key "ratings", "media"
   add_foreign_key "ratings", "statuses"
   add_foreign_key "ratings", "users"
 end

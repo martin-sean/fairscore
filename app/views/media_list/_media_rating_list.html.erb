@@ -5,7 +5,7 @@
       <div class="d-flex align-items-stretch justify-content-between">
         <% year = year_from_date(media['release_date']) %>
         <a href="<%= media_path rating.media_id %>" class="vertical-align">
-          <h5 class="m-0"><%= media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h5>
+          <h6 class="m-0"><%= media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h6>
         </a>
         <% if logged_in? %>
           <div class="d-flex justify-content-end">

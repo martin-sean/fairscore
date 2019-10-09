@@ -1,7 +1,8 @@
 include TMDbApi
 
 class DiscoverController < ApplicationController
-  before_action :set_media, only: [:new, :top, :search]
+  before_action :set_media
+  before_action :set_user_ratings
 
   # GET /discover/new
   def new
@@ -28,12 +29,18 @@ class DiscoverController < ApplicationController
   end
 
   private
+
     def set_media
       @media = Media.all
+    end
+
+    def set_user_ratings
+      @ratings = current_user.ratings
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def media_params
       params.require(:media).permit(:id, :title, :year, :info)
     end
+
 end

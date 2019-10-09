@@ -1,6 +1,6 @@
 <% provide(:title, 'Media List') %>
 
-<h2>Media list</h2>
+<h3>Media list</h3>
 
 <div class="list-group">
   <% @media_ids.each do |media_id| %>
@@ -9,13 +9,18 @@
       <div class="d-flex align-items-stretch justify-content-between">
         <% year = year_from_date(media['release_date']) %>
         <h4 class="mb-1"><%= media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h4>
-        <%# TODO: Move temporary calculation to another method %>
-        <strong><%= media_score(media_id) %></strong>
+        <%# Render score %>
+        <% score = media_score(media_id) %>
+        <% if score.present? %>
+          <span><strong><%= score %></strong><small class="text-muted"> / 10</small></span>
+        <% else %>
+          <small class="text-muted">No score</small>
+        <% end %>
       </div>
       <div class="d-flex align-items-stretch justify-content-between">
         <small class="text-muted"><%= media['tagline'] %></small>
         <% scored_ratings = @counts[media_id]  %>
-        <small><%= scored_ratings %> <%= 'user'.pluralize(scored_ratings) %></small>
+        <small class="badge badge-pill badge-info"><%= scored_ratings %> <%= 'user'.pluralize(scored_ratings) %></small>
       </div>
     </a>
   <% end %>

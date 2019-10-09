@@ -24,7 +24,8 @@ module ApplicationHelper
     if score.blank? || time_elapsed?(Time.now, score[:last_update], 5.minutes)
       MediaScoreUpdateJob.perform_later(media_id, cache_key)
     end
-    score.present? ? format_score(score[:value]) : 'No score yet'
+    # Return if score exists
+    format_score(score[:value]) if score.present?
   end
 
   # Return the year from the date in the format of YYYY-MM-DD (From TMDb)

@@ -35,12 +35,16 @@ module TMDbApi
     def cached_media(id, url)
       cache_key = "media-#{id}-TMDbAPI"
       cached_media = Rails.cache.read(cache_key)
-      # Check if update is required
-      if cached_media.blank? || time_elapsed?(Time.now, cached_media[:last_update], 6.hours)
+      # If cache is blank immediately update the cache and await API
+      if cached_media.blank?
+        result = open(url).read
+        Rails.cache.write(cache_key, {value: result, last_update: Time.now})
+        cached_media = { value: result }
+      # If cache is populated but needs refreshing
+      elsif time_elapsed?(Time.now, cached_media[:last_update], 6.hours)
         ResultCacheUpdateJob.perform_later(url, cache_key)
       end
-      # If data not cached, return an empty result
-      cached_media.present? ? cached_media[:value] : '{"results": []}'
+      cached_media[:value]
     end
 
 end
