@@ -17,5 +17,4 @@ Rails.application.routes.draw do
   get '/discover/new', to: 'discover#new'
   get '/discover/top', to: 'discover#top'
   post '/discover/search', to: 'discover#search'
-  post '/discover/add', to: 'discover#add_mdb_movie'
 end

@@ -1,7 +1,6 @@
 include TMDbApi
 
 class DiscoverController < ApplicationController
-  before_action :set_media
   before_action :set_user_ratings
 
   # GET /discover/new
@@ -17,22 +16,9 @@ class DiscoverController < ApplicationController
   # POST /discover/search
   def search
     @results = search_movies(params[:query])['results']
-    puts 'hi'
-  end
-
-  # POST /discover/add
-  def add_mdb_movie
-    @media = Media.new(media_params)
-    success = @media.save
-    flash[success ? :info : :danger] = success ? 'Media was successfully added.' : 'Media could not be added.'
-    redirect_back fallback_location: root_path
   end
 
   private
-
-    def set_media
-      @media = Media.all
-    end
 
     def set_user_ratings
       @ratings = current_user.ratings

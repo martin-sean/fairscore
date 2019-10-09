@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_09_103732) do
+ActiveRecord::Schema.define(version: 2019_10_09_115813) do
 
   create_table "actors", force: :cascade do |t|
     t.string "name", null: false
@@ -32,16 +32,6 @@ ActiveRecord::Schema.define(version: 2019_10_09_103732) do
     t.string "label", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "media", force: :cascade do |t|
-    t.string "title", null: false
-    t.integer "year"
-    t.string "info"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.float "zscore_sum", default: 0.0, null: false
-    t.integer "scored_ratings", default: 0, null: false
   end
 
   create_table "media_actors", force: :cascade do |t|

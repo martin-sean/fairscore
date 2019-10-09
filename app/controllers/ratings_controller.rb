@@ -33,8 +33,6 @@ class RatingsController < ApplicationController
         count = @rating.user.scored_ratings + score_count_change
         # Calculate the new rating zscore and media zscore sum
         zscore = new_score.present? ? calc_z_score(new_score.to_i, new_rating_sum, new_rating_sum_of_squares, count) : 0
-        @rating.media.zscore_sum += zscore - @rating.zscore.to_f
-        @rating.media.save
         @rating.update(score: new_score, status_id: rating_params[:status_id], zscore: zscore)
         @rating.save
       end
@@ -51,12 +49,7 @@ class RatingsController < ApplicationController
     # Update user scores and destroy rating
     success = ActiveRecord::Base.transaction do
       # Update media if the rating has a score
-      if @rating.score.present?
-        update_user_sum_scores(@rating, 0, @rating.score)
-        # Update the current rating's media's zscore_sum
-        @rating.media.zscore_sum -= @rating.zscore.to_f
-        @rating.media.save
-      end
+      update_user_sum_scores(@rating, 0, @rating.score) if @rating.score.present?
       @rating.destroy
     end
 
