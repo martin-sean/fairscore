@@ -1,31 +1,8 @@
 <% provide(:title, 'My List') %>
 
-<% watching = @status_ratings[0]&.each %>
-<% if watching %>
-  <h2>Watching</h2>
-  <%= render 'media_rating_list', ratings: watching %>
-<% end %>
-
-<% completed = @status_ratings[2]&.each %>
-<% if completed %>
-  <h2>Completed</h2>
-  <%= render 'media_rating_list', ratings: completed %>
-<% end %>
-
-<% on_hold = @status_ratings[3]&.each %>
-<% if on_hold %>
-  <h2>On Hold</h2>
-  <%= render 'media_rating_list', ratings: on_hold %>
-<% end %>
-
-<% dropped = @status_ratings[4]&.each %>
-<% if dropped %>
-  <h2>Dropped</h2>
-  <%= render 'media_rating_list', ratings: dropped %>
-<% end %>
-
-<% plan_to_watch = @status_ratings[1]&.each %>
-<% if plan_to_watch %>
-  <h2>Plan to Watch</h2>
-  <%= render 'media_rating_list', plan_to_watch %>
+<% @status_ratings.each do |index, ratings| %>
+  <% if ratings %>
+    <h3><%= @statuses.detect{|s| s.id == index}.label %></h3>
+    <%= render 'media_rating_list', ratings: ratings%>
+  <% end %>
 <% end %>
