@@ -1,6 +1,6 @@
 require 'open-uri'
 
-module TMDbAPI
+module TMDbApi
   BASE_URL = 'https://api.themoviedb.org/3'
   MDB_API_KEY = Rails.application.credentials[:mdb][:api]
 

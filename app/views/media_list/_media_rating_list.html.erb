@@ -1,25 +1,18 @@
 <div class="list-group">
   <% ratings.each do |rating| %>
-    <% media = rating.media %>
+    <% media = get_media(rating.media_id) %>
     <div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
-      <a href="<%= media_path media %>">
+      <a href="<%= media_path rating.media_id %>">
         <div class="d-flex align-items-stretch justify-content-between">
-          <h4 class="mb-1"><%= media.title %><% if media.year %> <small class="text-muted">(<%= media.year %>)</small><% end %></h4>
-          <small><%= get_media_score(media) %></small>
+          <% year = year_from_date(media['release_date']) %>
+          <h4 class="mb-1"><%= media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h4>
+          <small><%= media_score(rating.media_id) %></small>
         </div>
-        <small><%= media.scored_ratings %> <%= 'user'.pluralize(media.scored_ratings) %></small>
+<!--        <small><%#= media.scored_ratings %> <%#= 'user'.pluralize(media.scored_ratings) %></small>-->
       </a>
       <% if logged_in? %>
         <div class="d-flex justify-content-end">
-          <%# If current user has no rated media %>
-          <% rating = media.ratings.detect {|r| r.user_id == current_user.id} %>
-          <% if rating.nil? %>
-            <%= button_to 'Add to list', media_ratings_path(media), class: 'btn btn-sm btn-primary m-1' %>
-          <% else %>
-            <%= render 'shared/form_rating_html', media: media, rating: rating %>
-          <% end %>
-          <%= button_to 'Edit', edit_media_path(media), method: :get, class: 'btn btn-sm btn-info m-1' %>
-          <%= button_to 'Destroy', media, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger m-1' %>
+          <%= render 'shared/form_rating_html', media_id: rating.media_id, rating: rating %>
         </div>
       <% end %>
     </div>

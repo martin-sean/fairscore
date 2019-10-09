@@ -1,4 +1,4 @@
-include UserMediaRatingMaths
+include UserRatingMaths
 
 class MediaScoreUpdateJob < ApplicationJob
   queue_as :default

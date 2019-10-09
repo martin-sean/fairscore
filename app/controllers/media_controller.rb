@@ -1,4 +1,4 @@
-include UserMediaRatingMaths, SharedModelUpdates, TMDbAPI
+include UserRatingMaths, SharedModelUpdates, TMDbApi
 
 class MediaController < ApplicationController
   before_action :set_media, only: [:show, :edit, :update, :destroy]
@@ -8,8 +8,8 @@ class MediaController < ApplicationController
   # GET /media
   # GET /media.json
   def index
-    @ratings = Rating.distinct
-    @media_ids = @ratings.collect(&:media_id)
+    @ratings = Rating.all
+    @media_ids = @ratings.collect(&:media_id).uniq
   end
 
   # GET /media/1
@@ -82,8 +82,8 @@ class MediaController < ApplicationController
     end
 
     def set_statuses
-      @statuses = Rails.cache.fetch("statuses") do
-        @statuses = Status.all
+      @statuses = Rails.cache.fetch('statuses') do
+        Status.all.to_a
       end
     end
 

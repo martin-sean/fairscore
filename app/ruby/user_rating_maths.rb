@@ -1,4 +1,4 @@
-module UserMediaRatingMaths
+module UserRatingMaths
 
   # Calculate the mean given the sum and the count
   def calc_mean(sum, n)

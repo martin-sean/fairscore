@@ -16,8 +16,8 @@ module ApplicationHelper
     'alert-' + (messages[type].present? ? messages[type] : type)
   end
 
-  # Get the score for a given media
-  def get_media_score(media_id)
+  # Get the score for a given media from cache or recalculate
+  def media_score(media_id)
     cache_key = 'media-' + media_id.to_s
     score = Rails.cache.read(cache_key)
     # Check if score cache needs updating
@@ -28,7 +28,7 @@ module ApplicationHelper
   end
 
   # Return the year from the date in the format of YYYY-MM-DD (From TMDb)
-  def get_year_from_date(string)
+  def year_from_date(string)
     return unless string.present?
     Date.strptime(string, '%Y-%m-%d').year
   end

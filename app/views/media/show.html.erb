@@ -1,7 +1,8 @@
 <% provide(:title, @media['title']) %>
 
-<h2 class="mb-1"><%= @media['title'] %><small class="text-muted"> (<%= get_year_from_date(@media['release_date']) %>)</small></h2>
-<p><strong><%= get_media_score(@media['id']) %></strong></p>
+<% year = year_from_date(@media['release_date']) %>
+<h2 class="mb-1"><%= @media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h2>
+<p><strong><%= media_score(@media['id']) %></strong></p>
 <p><%= @media['overview'] %></p>
 <!--<small><%#= @media.scored_ratings %> <%#= 'user'.pluralize(@media.scored_ratings) %></small>-->
 

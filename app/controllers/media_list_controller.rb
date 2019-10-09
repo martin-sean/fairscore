@@ -9,12 +9,12 @@ class MediaListController < ApplicationController
 
   private
     def set_ratings
-      @status_ratings = current_user.ratings.includes(media: :ratings).group_by(&:status_id)
+      @status_ratings = current_user.ratings.group_by(&:status_id)
     end
 
     def set_statuses
-      @statuses = Rails.cache.fetch("statuses") do
-        @statuses = Status.all
+      @statuses = Rails.cache.fetch('statuses') do
+        Status.all.to_a
       end
     end
 end

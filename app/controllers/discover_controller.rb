@@ -1,4 +1,4 @@
-include TMDbAPI
+include TMDbApi
 
 class DiscoverController < ApplicationController
   before_action :set_media, only: [:new, :top, :search]

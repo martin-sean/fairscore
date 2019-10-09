@@ -8,16 +8,17 @@
     <div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
       <a href="<%= media_path media_id %>">
         <div class="d-flex align-items-stretch justify-content-between">
-          <h4 class="mb-1"><%= media['title'] %><small class="text-muted"> (<%= get_year_from_date(media['release_date']) %>)</small></h4>
+          <% year = year_from_date(media['release_date']) %>
+          <h4 class="mb-1"><%= media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h4>
           <%# TODO: Move temporary calculation to another method %>
-          <small><%= get_media_score(media_id) %></small>
+          <small><%= media_score(media_id) %></small>
         </div>
 <!--        <small><%#= media.scored_ratings %> <%#= 'user'.pluralize(media.scored_ratings) %></small>-->
       </a>
       <% if logged_in? %>
        <div class="d-flex justify-content-end">
           <%# If current user has not rated media %>
-          <% rating = @ratings.detect {|r| r.user_id == current_user.id} %>
+          <% rating = @ratings.detect {|r| r.user_id == current_user.id && r.media_id == media_id} %>
           <%= render 'shared/form_rating_html', media_id: media_id, rating: rating %>
        </div>
       <% end %>

@@ -1,4 +1,4 @@
-include UserMediaRatingMaths, SharedModelUpdates
+include UserRatingMaths, SharedModelUpdates
 
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:update, :destroy]

@@ -1,4 +1,4 @@
 module DiscoverHelper
-  include TMDbAPI
+  include TMDbApi
   IMG_BASE_URL = 'http://image.tmdb.org/t/p/w185'
 end
