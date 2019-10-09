@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :users
-  resources :media do
+  resources :media, only: [:index, :show] do
     resource :ratings, only: [:create, :update, :destroy]
   end
   resources :genres
