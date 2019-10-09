@@ -1,19 +1,34 @@
-<% provide(:title, @media['title']) %>
+<% if @media['title'].present? %>
+  <% provide(:title, @media['title']) %>
+  <% media_id = @media['id'] %>
 
-<% year = year_from_date(@media['release_date']) %>
-<h2 class="mb-1"><%= @media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h2>
-<p><strong><%= media_score(@media['id']) %></strong></p>
-<p><%= @media['overview'] %></p>
-<!--<small><%#= @media.scored_ratings %> <%#= 'user'.pluralize(@media.scored_ratings) %></small>-->
+  <div class="row">
+    <div class="col-auto">
+      <%= image_tag DiscoverHelper::IMG_BASE_URL + @media['poster_path'], class: 'movie-poster' if @media['poster_path'].present? %>
+      <div id="score-box" class="bg-light text-center mt-2 p-2 border rounded"><strong><%= media_score(media_id) %><small class="text-muted"> / 10</small></strong></div>
+    </div>
+    <div class="col">
+      <% year = year_from_date(@media['release_date']) %>
+      <h2 class="mb-1"><%= @media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h2>
+      <p><%= @media['overview'] %></p>
 
-<%# TODO: Customize this page, should be sufficiently different from media list that partials are not required %>
-<% if logged_in? %>
-  <div class="d-flex justify-content-end">
-    <%# If current user has not rated media %>
-    <% if @rating.blank? %>
-      <%= button_to 'Add to list', media_ratings_path(media_id: @media['id']), method: :post, class: 'btn btn-sm btn-primary m-1' %>
-    <% else %>
-      <%= render 'shared/form_rating_html', media_id: @media['id'], rating: @rating %>
-    <% end %>
+      <% scored_ratings = @ratings.size  %>
+      <small class="text-muted"><%= scored_ratings %> <%= 'user'.pluralize(scored_ratings) %> has rated this series</small>
+
+      <% if logged_in? %>
+        <div class="d-flex justify-content-end">
+          <%# If current user has not rated media %>
+          <% if @rating.blank? %>
+            <%= button_to 'Add to list', media_ratings_path(media_id: media_id), method: :post, class: 'btn btn-sm btn-primary m-1' %>
+          <% else %>
+            <%= render 'shared/form_rating_html', media_id: media_id, rating: @rating %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
+<% else %>
+  <% provide(:title, 'Not Found') %>
+  <h2>Media not found <small class="text-muted">(If you expected something here, try refreshing.)</small></h2>
 <% end %>
+

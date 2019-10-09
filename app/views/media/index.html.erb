@@ -5,23 +5,18 @@
 <div class="list-group">
   <% @media_ids.each do |media_id| %>
     <% media = get_media(media_id) %>
-    <div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
-      <a href="<%= media_path media_id %>">
-        <div class="d-flex align-items-stretch justify-content-between">
-          <% year = year_from_date(media['release_date']) %>
-          <h4 class="mb-1"><%= media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h4>
-          <%# TODO: Move temporary calculation to another method %>
-          <small><%= media_score(media_id) %></small>
-        </div>
-<!--        <small><%#= media.scored_ratings %> <%#= 'user'.pluralize(media.scored_ratings) %></small>-->
-      </a>
-      <% if logged_in? %>
-       <div class="d-flex justify-content-end">
-          <%# If current user has not rated media %>
-          <% rating = @ratings.detect {|r| r.user_id == current_user.id && r.media_id == media_id} %>
-          <%= render 'shared/form_rating_html', media_id: media_id, rating: rating %>
-       </div>
-      <% end %>
-    </div>
+    <a href="<%= media_path media_id %>" class="list-group-item list-group-item-action flex-column align-items-start mb-2">
+      <div class="d-flex align-items-stretch justify-content-between">
+        <% year = year_from_date(media['release_date']) %>
+        <h4 class="mb-1"><%= media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h4>
+        <%# TODO: Move temporary calculation to another method %>
+        <strong><%= media_score(media_id) %></strong>
+      </div>
+      <div class="d-flex align-items-stretch justify-content-between">
+        <small class="text-muted"><%= media['tagline'] %></small>
+        <% scored_ratings = @counts[media_id]  %>
+        <small><%= scored_ratings %> <%= 'user'.pluralize(scored_ratings) %></small>
+      </div>
+    </a>
   <% end %>
 </div>

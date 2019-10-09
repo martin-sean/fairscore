@@ -9,12 +9,14 @@ class MediaController < ApplicationController
   # GET /media.json
   def index
     @ratings = Rating.all
-    @media_ids = @ratings.collect(&:media_id).uniq
+    @media_ids = @ratings.collect(&:media_id)
+    @counts = @ratings.inject(Hash.new(0)) {|h, rating| h[rating.media_id] += 1; h }
   end
 
   # GET /media/1
   # GET /media/1.json
   def show
+    @ratings = Rating.where(media_id: params[:id])
   end
 
   # GET /media/1/edit

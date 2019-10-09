@@ -21,7 +21,7 @@ module ApplicationHelper
     cache_key = 'media-' + media_id.to_s
     score = Rails.cache.read(cache_key)
     # Check if score cache needs updating
-    if score.blank? || Time.now - score[:last_update] > 5.minutes
+    if score.blank? || time_elapsed?(Time.now, score[:last_update], 5.minutes)
       MediaScoreUpdateJob.perform_later(media_id, cache_key)
     end
     score.present? ? format_score(score[:value]) : 'No score yet'
@@ -33,11 +33,16 @@ module ApplicationHelper
     Date.strptime(string, '%Y-%m-%d').year
   end
 
+  # Check if interval (eg 5.hours) has passed between two times
+  def time_elapsed?(now, previous, interval)
+    now - previous > interval
+  end
+
   private
 
     # Format the score to display in view
     def format_score(score)
-      'Score: %.2f' % calculate_standard_score(score) + ' / 10'
+      '%.2f' % calculate_standard_score(score)
     end
 
     # Roughly fit Z-score to normal distribution with a mean of 5 and a standard deviation of 1.5

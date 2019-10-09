@@ -10,5 +10,5 @@
     <%= form.select :score, (Rating::MIN..Rating::MAX), { include_blank: true }, { class: 'form-control form-control-sm mr-2' } %>
   </div>
   <%= form.submit 'Update', class: 'btn btn-sm btn-primary mr-1' %>
+  <%= button_to 'Remove', media_ratings_path(media_id, rating), method: :delete, class: 'btn btn-sm btn-danger m-1' %>
 <% end %>
-<%= button_to 'Remove', media_ratings_path(media_id, rating), method: :delete, class: 'btn btn-sm btn-danger m-1' %>

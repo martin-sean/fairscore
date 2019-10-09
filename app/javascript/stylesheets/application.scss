@@ -22,3 +22,8 @@ body {
   height: 18rem;
   object-fit: cover;
 }
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+}

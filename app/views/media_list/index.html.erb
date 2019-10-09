@@ -2,7 +2,9 @@
 
 <% @status_ratings.each do |index, ratings| %>
   <% if ratings %>
-    <h3><%= @statuses.detect{|s| s.id == index}.label %></h3>
-    <%= render 'media_rating_list', ratings: ratings%>
+    <h3><%= @statuses.detect {|s| s.id == index}.label %></h3>
+    <div class="mb-3">
+      <%= render 'media_rating_list', ratings: ratings%>
+    </div>
   <% end %>
 <% end %>
