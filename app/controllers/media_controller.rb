@@ -7,7 +7,7 @@ class MediaController < ApplicationController
 
   # GET /media
   def index
-    @ratings = Rating.order('score DESC').page(params[:page])
+    @ratings = Rating.page(params[:page])
     @media_ids = @ratings.collect(&:media_id)
     @counts = @ratings.inject(Hash.new(0)) {|h, rating| h[rating.media_id] += 1; h }
   end

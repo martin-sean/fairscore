@@ -21,6 +21,13 @@ body {
 .movie-poster {
   height: 18rem;
   object-fit: cover;
+  background: lightgrey;
+}
+
+.no-image {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .vertical-align {

@@ -5,7 +5,7 @@
       <% if result['poster_path'].present? %>
         <%= link_to image_tag(DiscoverHelper::IMG_BASE_URL + result['poster_path'], class: 'movie-poster'), media_path(media_id) %>
       <% else %>
-        <div class="text-center vertical-align movie-poster text-muted align-middle">No image</div>
+        <div class="text-center movie-poster"><span class="no-image text-muted">No image</span></div>
       <% end %>
       <div class="card-body p-3">
         <h6 class="card-title"><%= result['title'] %><small class="text-muted"> (<%= year_from_date(result['release_date']) %>)</small></h6>

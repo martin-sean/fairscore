@@ -7,10 +7,9 @@
     <% start_page -= (start_page - window) > 0 ? window : 0 %>
 
     <%# Render first %>
-    <% if start_page > 1 %>
-      <li class="page-item"><%= link_to 'First', page.call(page: 1), class: 'page-link' %></li>
-      <li class="disabled page-item"><%= link_to '...', '#', class: 'page-link' %></li>
-    <% end %>
+    <% if start_page > 1 %><li class="page-item"><%= link_to 'First', page.call(page: 1), class: 'page-link' %></li><% end %>
+    <% if current_page > 1 %><li class="page-item"><%= link_to 'Previous', page.call(page: current_page - 1), class: 'page-link' %></li><% end %>
+    <% if start_page > 1 %><li class="disabled page-item"><%= link_to '...', '#', class: 'page-link' %></li><% end %>
 
     <%# Render sliding window %>
     <% (start_page..end_page).each do |i| %>
@@ -21,6 +20,7 @@
     <%# Render last %>
     <% if end_page < total_pages %>
       <li class="disabled page-item"><%= link_to '...', '#', class: 'page-link' %></li>
+      <% if current_page < total_pages %><li class="page-item"><%= link_to 'Next', page.call(page: current_page + 1), class: 'page-link' %></li><% end %>
       <li class="page-item"><%= link_to 'Last', page.call(page: total_pages), class: 'page-link' %></li>
     <% end %>
   </ul>
