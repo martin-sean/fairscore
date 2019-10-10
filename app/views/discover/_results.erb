@@ -1,8 +1,12 @@
-<div class="row mb-2">
+<div class="row mb-3">
   <% @results['results'].each do |result| %>
     <% media_id = result['id'] %>
     <div class="movie-card card m-2">
-      <%= link_to image_tag(DiscoverHelper::IMG_BASE_URL + result['poster_path'], class: 'movie-poster'), media_path(media_id) if result['poster_path'].present? %>
+      <% if result['poster_path'].present? %>
+        <%= link_to image_tag(DiscoverHelper::IMG_BASE_URL + result['poster_path'], class: 'movie-poster'), media_path(media_id) %>
+      <% else %>
+        <div class="text-center vertical-align movie-poster text-muted align-middle">No image</div>
+      <% end %>
       <div class="card-body p-3">
         <h6 class="card-title"><%= result['title'] %><small class="text-muted"> (<%= year_from_date(result['release_date']) %>)</small></h6>
       </div>
@@ -26,18 +30,4 @@
   <% end %>
 </div>
 
-<%# Manual pagination for now %>
-<% current_page = @results['page'].to_i %>
-<% total_pages = @results['total_pages'].to_i %>
-<nav class="mb-5" aria-label="Page navigation">
-  <ul class="pagination">
-    <% first_disabled = 'disabled' if current_page <= 1 %>
-    <% last_disabled = 'disabled' if current_page >= total_pages %>
-    <li class="<%= first_disabled %> page-item"><%= link_to 'First', discover_new_path(page: 1), class: 'page-link' %></li>
-    <li class="<%= first_disabled %> page-item"><%= link_to 'Previous', discover_new_path(page: current_page - 1), class: 'page-link' %></li>
-    <li class="<%= last_disabled %> page-item"><%= link_to 'Next', discover_new_path(page: current_page + 1), class: 'page-link' %></li>
-    <li class="<%= last_disabled %> page-item"><%= link_to 'Last', discover_new_path(page: total_pages), class: 'page-link' %></li>
-  </ul>
-</nav>
-
-
+<%= render 'shared/pagination', page: method(:discover_new_path), current_page: @results['page'].to_i, total_pages: @results['total_pages'].to_i %>

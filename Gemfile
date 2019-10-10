@@ -25,7 +25,6 @@ gem "strip_attributes"
 # gem 'image_processing', '~> 1.2'
 # Pagination
 gem 'kaminari'
-
 # Conditional count caching
 gem 'counter_culture', '~> 2.0'
 

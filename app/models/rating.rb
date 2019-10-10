@@ -10,5 +10,5 @@ class Rating < ApplicationRecord
   MIN = 0
   MAX = 10
 
-  paginates_per 10
+  paginates_per 8
 end

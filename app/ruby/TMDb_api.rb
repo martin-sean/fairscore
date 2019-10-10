@@ -8,7 +8,7 @@ module TMDbApi
   # Return Media for a given id
   def get_media(id)
     url = BASE_URL + '/movie/' + id.to_s + '?api_key=' + MDB_API_KEY
-    JSON.parse(cached_media(id, page, url))
+    JSON.parse(cached_media(id, 1, url))
   end
 
   # Return first page of movies for this year (2019)

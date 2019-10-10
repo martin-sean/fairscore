@@ -1,0 +1,27 @@
+<nav class="mb-5" aria-label="Page navigation">
+  <ul class="pagination">
+    <% start_page = current_page < 4 ? 1 : current_page - 3 %>
+    <% end_page = start_page + 6 %>
+    <% end_page = total_pages < end_page ? total_pages : end_page %>
+    <% window = start_page - end_page + 6 %>
+    <% start_page -= (start_page - window) > 0 ? window : 0 %>
+
+    <%# Render first %>
+    <% if start_page > 1 %>
+      <li class="page-item"><%= link_to 'First', page.call(page: 1), class: 'page-link' %></li>
+      <li class="disabled page-item"><%= link_to '...', '#', class: 'page-link' %></li>
+    <% end %>
+
+    <%# Render sliding window %>
+    <% (start_page..end_page).each do |i| %>
+      <% active = i == current_page ? 'active' : '' %>
+      <li class="<%= active %> page-item"><%= link_to i, page.call(page: i), class: 'page-link' %></li>
+    <% end %>
+
+    <%# Render last %>
+    <% if end_page < total_pages %>
+      <li class="disabled page-item"><%= link_to '...', '#', class: 'page-link' %></li>
+      <li class="page-item"><%= link_to 'Last', page.call(page: total_pages), class: 'page-link' %></li>
+    <% end %>
+  </ul>
+</nav>

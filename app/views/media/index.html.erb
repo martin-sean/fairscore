@@ -1,7 +1,6 @@
 <% provide(:title, 'Media List') %>
 
 <h3>Media list</h3>
-<%= paginate @ratings %>
 <div class="list-group">
   <% @media_ids.each do |media_id| %>
     <% media = get_media(media_id) %>
