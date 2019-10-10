@@ -21,7 +21,7 @@
       <p><%= @media['overview'] %></p>
 
       <% scored_ratings = @ratings.size  %>
-      <span class="badge badge-pill badge-info"><%= scored_ratings %> <%= 'user'.pluralize(scored_ratings) %></span><small> has rated this series</small>
+      <span class="badge badge-pill badge-info"> <%= pluralize(scored_ratings, 'user') %></span><small> <%= 'has'.pluralize(scored_ratings) %> rated this series</small>
 
       <% if logged_in? %>
         <div class="d-flex justify-content-end">

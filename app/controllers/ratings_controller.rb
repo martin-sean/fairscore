@@ -1,4 +1,4 @@
-include UserRatingMaths, SharedModelUpdates
+include UserRatingMaths
 
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:update, :destroy]
@@ -19,17 +19,18 @@ class RatingsController < ApplicationController
       redirect_back fallback_location: root_path
     end
 
-    new_score = rating_params[:score]
+    new_score = rating_params[:score].presence
     old_score = @rating.score
-    # Determine if score added (+1), score removed (-1) or no change (0)
-    score_count_change = ((new_score.present? && old_score.blank?) ? 1 : (new_score.blank? && old_score.present?) ? -1 : 0)
-    # Don't update media zscore sums if score nil -> nil, no change to score or no change to status
-    do_update = score_count_change != 0 || new_score.to_i != old_score.to_i || rating_params[:status_id] != @rating.status_id
 
-    if do_update # Skip transaction if no change
+    # Dont bother updating rating unless there is a change to score or status
+    do_update = new_score.to_i != old_score.to_i || rating_params[:status_id] != @rating.status_id
+    if do_update
       success = ActiveRecord::Base.transaction do
         # Calculate and update user sum scores
         new_rating_sum, new_rating_sum_of_squares = update_user_sum_scores(@rating, new_score, old_score)
+
+        # Avoid hitting the DB and calculate scored rating change: score added (+1), score removed (-1), no change (0)
+        score_count_change = ((new_score.present? && old_score.blank?) ? 1 : (new_score.blank? && old_score.present?) ? -1 : 0)
         count = @rating.user.scored_ratings + score_count_change
         # Calculate the new rating zscore and media zscore sum
         zscore = new_score.present? ? calc_z_score(new_score.to_i, new_rating_sum, new_rating_sum_of_squares, count) : 0
@@ -67,6 +68,21 @@ class RatingsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def rating_params
       params.require(:rating).permit(:status_id, :score)
+    end
+
+    # Update the sums of scores of a rating's user during rating updates/media deletions
+    def update_user_sum_scores(rating, new_score, old_score)
+      # Calculate the rating sums for the user and the new zscore rating
+      new_rating_sum = rating.user.rating_sum + new_score.to_i - old_score.to_i
+      new_rating_sum_of_squares = rating.user.rating_sum_of_squares + new_score.to_i**2 - old_score.to_i**2
+      rating.user.update(rating_sum: new_rating_sum, rating_sum_of_squares: new_rating_sum_of_squares)
+      [new_rating_sum, new_rating_sum_of_squares]
+    end
+
+    # Start a new job to update the zscores related to a given rating that was changed.
+    # Jobs use FIFO queue to prevent data loss from multiple requests
+    def update_rating_media_zscores(changed_rating)
+      MediaZscoresUpdateJob.perform_later(changed_rating)
     end
 
 end

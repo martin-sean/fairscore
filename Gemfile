@@ -23,6 +23,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem "strip_attributes"
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
+# Pagination
+gem 'kaminari'
 
 # Conditional count caching
 gem 'counter_culture', '~> 2.0'

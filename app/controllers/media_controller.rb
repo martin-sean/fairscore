@@ -1,4 +1,4 @@
-include UserRatingMaths, SharedModelUpdates, TMDbApi
+include UserRatingMaths, TMDbApi
 
 class MediaController < ApplicationController
   before_action :set_media, only: [:show]
@@ -7,7 +7,7 @@ class MediaController < ApplicationController
 
   # GET /media
   def index
-    @ratings = Rating.all
+    @ratings = Rating.order(:media.name).page(params[:page])
     @media_ids = @ratings.collect(&:media_id)
     @counts = @ratings.inject(Hash.new(0)) {|h, rating| h[rating.media_id] += 1; h }
   end

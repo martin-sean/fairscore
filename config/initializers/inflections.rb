@@ -11,6 +11,8 @@
 # end
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular 'media', 'media'
+  inflect.irregular 'has', 'have'
+  inflect.irregular 'is', 'are'
 end
 
 

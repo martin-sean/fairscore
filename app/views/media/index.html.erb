@@ -1,7 +1,7 @@
 <% provide(:title, 'Media List') %>
 
 <h3>Media list</h3>
-
+<%= paginate @ratings %>
 <div class="list-group">
   <% @media_ids.each do |media_id| %>
     <% media = get_media(media_id) %>
@@ -20,8 +20,9 @@
       <div class="d-flex align-items-stretch justify-content-between">
         <small class="text-muted"><%= media['tagline'] %></small>
         <% scored_ratings = @counts[media_id]  %>
-        <small class="badge badge-pill badge-info"><%= scored_ratings %> <%= 'user'.pluralize(scored_ratings) %></small>
+        <small class="badge badge-pill badge-info"><%= pluralize(scored_ratings, 'user') %></small>
       </div>
     </a>
   <% end %>
 </div>
+<%= paginate @ratings %>

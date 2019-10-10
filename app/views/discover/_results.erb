@@ -1,5 +1,5 @@
-<div class="row mb-5">
-  <% @results.each do |result| %>
+<div class="row mb-2">
+  <% @results['results'].each do |result| %>
     <% media_id = result['id'] %>
     <div class="movie-card card m-2">
       <%= link_to image_tag(DiscoverHelper::IMG_BASE_URL + result['poster_path'], class: 'movie-poster'), media_path(media_id) if result['poster_path'].present? %>
@@ -25,5 +25,19 @@
     </div>
   <% end %>
 </div>
+
+<%# Manual pagination for now %>
+<% current_page = @results['page'].to_i %>
+<% total_pages = @results['total_pages'].to_i %>
+<nav class="mb-5" aria-label="Page navigation">
+  <ul class="pagination">
+    <% first_disabled = 'disabled' if current_page <= 1 %>
+    <% last_disabled = 'disabled' if current_page >= total_pages %>
+    <li class="<%= first_disabled %> page-item"><%= link_to 'First', discover_new_path(page: 1), class: 'page-link' %></li>
+    <li class="<%= first_disabled %> page-item"><%= link_to 'Previous', discover_new_path(page: current_page - 1), class: 'page-link' %></li>
+    <li class="<%= last_disabled %> page-item"><%= link_to 'Next', discover_new_path(page: current_page + 1), class: 'page-link' %></li>
+    <li class="<%= last_disabled %> page-item"><%= link_to 'Last', discover_new_path(page: total_pages), class: 'page-link' %></li>
+  </ul>
+</nav>
 
 

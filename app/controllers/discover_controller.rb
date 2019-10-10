@@ -5,17 +5,17 @@ class DiscoverController < ApplicationController
 
   # GET /discover/new
   def new
-    @results = get_new_movies['results']
+    @results = get_new_movies(params[:page])
   end
 
   # GET /discover/top
   def top
-    @results = get_top_movies['results']
+    @results = get_top_movies(params[:page])
   end
 
   # POST /discover/search
   def search
-    @results = search_movies(params[:query])['results']
+    @results = search_movies(params[:query], params[:page])
   end
 
   private

@@ -9,4 +9,6 @@ class Rating < ApplicationRecord
   # Range of valid scores
   MIN = 0
   MAX = 10
+
+  paginates_per 10
 end

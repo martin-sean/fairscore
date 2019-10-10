@@ -18,3 +18,4 @@ require("channels")
 
 import '../stylesheets/application.scss'
 import './bootstrap_custom'
+import './pagination'
