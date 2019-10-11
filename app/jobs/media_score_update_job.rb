@@ -16,7 +16,7 @@ class MediaScoreUpdateJob < ApplicationJob
       end
     end
     score = zscore_sum.fdiv(scored_count)
-    Rails.cache.write(cache_key, { value: score, last_update: Time.now }) unless score.nan?
+    Rails.cache.write(cache_key, { value: score, last_update: Time.current }) unless score.nan?
   end
 
 end

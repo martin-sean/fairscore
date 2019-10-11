@@ -2,23 +2,36 @@ include TMDbApi
 
 class DiscoverController < ApplicationController
   before_action :set_user_ratings
+  before_action :set_page
 
-  # GET /discover/new
-  def new
-    @results = get_new_movies(params[:page])
-  end
-
-  # GET /discover/top
-  def top
-    @results = get_top_movies(params[:page])
+  # GET /discover
+  def index
   end
 
   # POST /discover/search
   def search
     @results = search_movies(params[:query], params[:page])
+    @title = 'Search'
   end
 
   private
+
+    # Read the params and initialise the page
+    def set_page
+      sort = params[:sort]
+      page = params[:page]
+      case sort
+      when 'top'
+        @results = get_top_movies(page)
+        @title = 'Top Media'
+      when 'watched'
+        @results = get_watched_movies(page)
+        @title = 'Most Watched'
+      else
+        @results = get_new_movies(page)
+        @title = 'Recent Media'
+      end
+    end
 
     def set_user_ratings
       @ratings = current_user.ratings

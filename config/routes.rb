@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   post '/login', to: 'session#create'
   delete '/logout', to: 'session#destroy'
   get '/medialist', to: 'media_list#index'
-  get '/discover/new', to: 'discover#new'
-  get '/discover/top', to: 'discover#top'
+  get '/discover', to: 'discover#index'
   post '/discover/search', to: 'discover#search'
 end

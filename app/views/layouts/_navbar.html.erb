@@ -13,14 +13,8 @@
         <li class="nav-item <%= 'active' if current_page?(medialist_path) %>">
           <%= link_to 'My List', medialist_path, class: 'nav-link' %>
         </li>
-        <li class="nav-item dropdown <%= 'active' if current_page?(discover_new_path) || current_page?(discover_top_path) %>">
-          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Discover
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <%= link_to 'New Media', discover_new_path, class: 'dropdown-item' %>
-            <%= link_to 'Top Media', discover_top_path, class: 'dropdown-item' %>
-          </div>
+        <li class="nav-item <%= 'active' if current_page?(discover_path) %>">
+          <%= link_to 'Discover', discover_path, class: 'nav-link' %>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
