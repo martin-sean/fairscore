@@ -1,10 +1,39 @@
 <% provide(:title, 'My List') %>
 
+<div class="d-flex justify-content-end">
+  <div class="row">
+    <div class="dropdown mx-2">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Status
+      </button>
+      <div class="dropdown-menu" aria-labelledby="sortDropdownMenuButton">
+        <%= link_to 'All', medialist_path(sort: params[:sort]), class: 'dropdown-item' %>
+        <%= link_to 'Watching', medialist_path(status: 0, sort: params[:sort]), class: 'dropdown-item' %>
+        <%= link_to 'Plan to Watch', medialist_path(status: 1, sort: params[:sort]), class: 'dropdown-item' %>
+        <%= link_to 'Completed', medialist_path(status: 2, sort: params[:sort]), class: 'dropdown-item' %>
+        <%= link_to 'On Hold', medialist_path(status: 3, sort: params[:sort]), class: 'dropdown-item' %>
+        <%= link_to 'Dropped', medialist_path(status: 4, sort: params[:sort]), class: 'dropdown-item' %>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Sort
+      </button>
+      <div class="dropdown-menu" aria-labelledby="sortDropdownMenuButton">
+        <%= link_to 'A - Z', medialist_path(status: params[:status], sort: 'a-z'), class: 'dropdown-item' %>
+        <%= link_to 'Score', medialist_path(status: params[:status], sort: 'score'), class: 'dropdown-item' %>
+      </div>
+    </div>
+  </div>
+</div>
+
 <% @status_ratings.each do |index, ratings| %>
-  <% if ratings %>
+  <% if ratings.present? %>
     <h3><%= @statuses.detect {|s| s.id == index}.label %></h3>
     <div class="mb-3">
       <%= render 'media_rating_list', ratings: ratings%>
     </div>
+  <% else %>
+    <h4 class="text-muted">No Matches</4>
   <% end %>
 <% end %>

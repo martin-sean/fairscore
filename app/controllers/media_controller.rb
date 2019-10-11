@@ -7,14 +7,8 @@ class MediaController < ApplicationController
 
   # GET /media
   def index
-    @ratings = Rating.page(params[:page])
-    # Filter results if genre provided
-    if params[:genre].present?
-      @ratings = Kaminari.paginate_array(
-          @ratings.select {|r| (get_media(r.media_id)['genres'].detect {|g| g['id'].to_s == params[:genre].to_s}).present? }
-      ).page(params[:page]).per(8)
-    end
-
+    @ratings = sorted_ratings
+    check_genre_param
     @media_ids = @ratings.collect(&:media_id)
     @counts = @ratings.inject(Hash.new(0)) {|h, rating| h[rating.media_id] += 1; h }
   end
@@ -37,6 +31,32 @@ class MediaController < ApplicationController
     def set_statuses
       @statuses = Rails.cache.fetch('statuses') do
         Status.all.to_a
+      end
+    end
+
+  # Sort results if param provided
+  def sorted_ratings
+    # Sort alphabetically
+    if params[:sort] == 'a-z'
+      return Kaminari.paginate_array(
+          Rating.all.sort_by {|r| get_media(r.media_id)['title']}
+          ).page(params[:page]).per(Rating::PER_PAGE)
+
+    # Sort by score
+    elsif params[:sort] == 'score'
+      return Kaminari.paginate_array(
+          Rating.all.sort_by {|r| media_score(r.media_id).to_f || -1 }.reverse!
+          ).page(params[:page]).per(Rating::PER_PAGE)
+    end
+    Rating.page(params[:page])
+  end
+
+    # Filter results if genre provided
+    def check_genre_param
+      if params[:genre].present?
+        @ratings = Kaminari.paginate_array(
+            @ratings.select {|r| (get_media(r.media_id)['genres'].detect {|g| g['id'].to_s == params[:genre].to_s}).present? }
+        ).page(params[:page]).per(Rating::PER_PAGE)
       end
     end
 
