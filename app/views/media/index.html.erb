@@ -1,8 +1,7 @@
 <% provide(:title, 'Media List') %>
 
-<h3>Media list</h3>
 <div class="d-flex justify-content-between">
-  <%= paginate @ratings %>
+  <h3><%= yield :title %></h3>
   <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Sort
@@ -14,7 +13,7 @@
   </div>
 </div>
 
-<div class="list-group">
+<div class="list-group my-2">
   <% @media_ids.each do |media_id| %>
     <% media = get_media(media_id) %>
     <a href="<%= media_path media_id %>" class="list-group-item list-group-item-action flex-column align-items-start mb-2">
@@ -37,3 +36,5 @@
     </a>
   <% end %>
 </div>
+
+<%= paginate @ratings %>
