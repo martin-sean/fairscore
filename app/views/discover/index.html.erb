@@ -4,12 +4,12 @@
   <h3><%= @title %></h3>
   <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Sort Media
+      Browse
     </button>
     <div class="dropdown-menu" aria-labelledby="sortDropdownMenuButton">
-      <%= link_to 'Recent', discover_path(sort: 'recent'), class: 'dropdown-item' %>
-      <%= link_to 'Top Media', discover_path(sort: 'top'), class: 'dropdown-item' %>
-      <%= link_to 'Most Watched', discover_path(sort: 'watched'), class: 'dropdown-item' %>
+      <%= link_to 'Recent', discover_path(browse: 'recent'), class: 'dropdown-item' %>
+      <%= link_to 'Top Media', discover_path(browse: 'top'), class: 'dropdown-item' %>
+      <%= link_to 'Most Watched', discover_path(browse: 'watched'), class: 'dropdown-item' %>
     </div>
   </div>
 </div>

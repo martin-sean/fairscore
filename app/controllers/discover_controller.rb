@@ -18,9 +18,9 @@ class DiscoverController < ApplicationController
 
     # Read the params and initialise the page
     def set_page
-      sort = params[:sort]
+      browse = params[:browse]
       page = params[:page]
-      case sort
+      case browse
       when 'top'
         @results = get_top_movies(page)
         @title = 'Top Media'

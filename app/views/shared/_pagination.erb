@@ -7,21 +7,21 @@
     <% start_page -= (start_page - window) > 0 ? window : 0 %>
 
     <%# Render first %>
-    <% if start_page > 1 %><li class="page-item"><%= link_to 'First', page.call(sort: params[:sort], page: 1), class: 'page-link' %></li><% end %>
-    <% if current_page > 1 %><li class="page-item"><%= link_to 'Previous', page.call(sort: params[:sort], page: current_page - 1), class: 'page-link' %></li><% end %>
+    <% if start_page > 1 %><li class="page-item"><%= link_to 'First', page.call(browse: params[:browse], page: 1), class: 'page-link' %></li><% end %>
+    <% if current_page > 1 %><li class="page-item"><%= link_to 'Previous', page.call(browse: params[:browse], page: current_page - 1), class: 'page-link' %></li><% end %>
     <% if start_page > 1 %><li class="disabled page-item"><%= link_to '...', '#', class: 'page-link' %></li><% end %>
 
     <%# Render sliding window %>
     <% (start_page..end_page).each do |i| %>
       <% active = i == current_page ? 'active' : '' %>
-      <li class="<%= active %> page-item"><%= link_to i, page.call(sort: params[:sort], page: i), class: 'page-link' %></li>
+      <li class="<%= active %> page-item"><%= link_to i, page.call(browse: params[:browse], page: i), class: 'page-link' %></li>
     <% end %>
 
     <%# Render last %>
     <% if end_page < total_pages %>
       <li class="disabled page-item"><%= link_to '...', '#', class: 'page-link' %></li>
-      <% if current_page < total_pages %><li class="page-item"><%= link_to 'Next', page.call(sort: params[:sort], page: current_page + 1), class: 'page-link' %></li><% end %>
-      <li class="page-item"><%= link_to 'Last', page.call(sort: params[:sort], page: total_pages), class: 'page-link' %></li>
+      <% if current_page < total_pages %><li class="page-item"><%= link_to 'Next', page.call(browse: params[:browse], page: current_page + 1), class: 'page-link' %></li><% end %>
+      <li class="page-item"><%= link_to 'Last', page.call(browse: params[:browse], page: total_pages), class: 'page-link' %></li>
     <% end %>
   </ul>
 </nav>

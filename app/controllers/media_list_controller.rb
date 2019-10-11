@@ -1,7 +1,7 @@
 class MediaListController < ApplicationController
 
-  before_action :set_ratings, only: [:index]
-  before_action :set_statuses, only: [:index]
+  before_action :set_ratings
+  before_action :set_statuses
 
   # GET /medialist
   def index

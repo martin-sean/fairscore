@@ -8,6 +8,13 @@ class MediaController < ApplicationController
   # GET /media
   def index
     @ratings = Rating.page(params[:page])
+    # Filter results if genre provided
+    if params[:genre].present?
+      @ratings = Kaminari.paginate_array(
+          @ratings.select {|r| (get_media(r.media_id)['genres'].detect {|g| g['id'].to_s == params[:genre].to_s}).present? }
+      ).page(params[:page]).per(8)
+    end
+
     @media_ids = @ratings.collect(&:media_id)
     @counts = @ratings.inject(Hash.new(0)) {|h, rating| h[rating.media_id] += 1; h }
   end

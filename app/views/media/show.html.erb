@@ -3,10 +3,11 @@
   <% media_id = @media['id'] %>
 
   <div class="row">
+    <%# Image and score %>
     <div class="col-auto">
       <%= image_tag DiscoverHelper::IMG_BASE_URL + @media['poster_path'], class: 'movie-poster' if @media['poster_path'].present? %>
       <%# Score box %>
-      <div id="score-box" class="bg-light text-center mt-2 p-2 border rounded">
+      <div id="score-box" class="bg-light text-center my-2 p-2 border rounded">
         <% score = media_score(media_id) %>
         <% if score.present? %>
           <strong><%= media_score(media_id) %><small class="text-muted"> / 10</small></strong>
@@ -16,11 +17,18 @@
       </div>
     </div>
     <div class="col">
+      <%# Title and overview %>
       <% year = year_from_date(@media['release_date']) %>
       <h2 class="mb-1"><%= @media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h2>
       <p><%= @media['overview'] %></p>
-
-      <% scored_ratings = @ratings.size  %>
+      <%# Genres %>
+      <div class="mb-3 genre-show-box">
+        <% @media['genres'].each do |genre| %>
+          <%= link_to genre['name'], media_index_path(genre: genre['id']), class: 'badge badge-success'%>
+        <% end %>
+      </div>
+      <%# Number of ratings %>
+      <% scored_ratings = @ratings.size %>
       <span class="badge badge-pill badge-info"> <%= pluralize(scored_ratings, 'user') %></span><small> <%= 'has'.pluralize(scored_ratings) %> rated this series</small>
 
       <% if logged_in? %>

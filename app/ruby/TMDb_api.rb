@@ -19,13 +19,18 @@ module TMDbApi
 
   # Return the top movies with at least 10000 votes
   def get_top_movies(page = 1)
-    url = BASE_URL + '/discover/movie?sort_by=vote_average.desc&vote_count.gte=1000&page=' + page.to_s + '&api_key=' + MDB_API_KEY
+    url = BASE_URL + '/discover/movie?sort_by=vote_average.desc&vote_count.gte=4000&page=' + page.to_s + '&api_key=' + MDB_API_KEY
     JSON.parse(cached_media('top-movies', page, url))
   end
 
   def get_watched_movies(page = 1)
     url = BASE_URL + '/discover/movie?sort_by=vote_count.desc&page=' + page.to_s + '&api_key=' + MDB_API_KEY
     JSON.parse(cached_media('watched-movies', page, url))
+  end
+
+  def get_genre_movies(genres, page = 1)
+    url = BASE_URL + '/discover/movie?sort_by=popular.desc&with_genres=' + genres + '&page=' + page + '&api_key=' + MDB_API_KEY
+    JSON.parse(cached_media(genres, page, url))
   end
 
   # Search movies
@@ -37,7 +42,7 @@ module TMDbApi
   private
 
     # Retrieve result from cache and request an update if required
-    def cached_media(id, page, url)
+    def cached_media(id, page, url, time = 6.hours)
       cache_key = "media(#{id})-page(#{page})-TMDbAPI"
       cached_media = Rails.cache.read(cache_key)
       # If cache is blank immediately update the cache and await API
@@ -46,7 +51,7 @@ module TMDbApi
         Rails.cache.write(cache_key, {value: result, last_update: Time.current})
         cached_media = { value: result }
       # If cache is populated but needs refreshing
-      elsif time_elapsed?(Time.current, cached_media[:last_update], 6.hours)
+      elsif time_elapsed?(Time.current, cached_media[:last_update], time)
         ResultCacheUpdateJob.perform_later(url, cache_key)
       end
       cached_media[:value]
