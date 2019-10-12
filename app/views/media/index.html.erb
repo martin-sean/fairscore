@@ -1,7 +1,7 @@
 <% provide(:title, @title) %>
 
 <div class="row d-flex justify-content-between">
-  <h3><%= yield :title %> <small class="text-muted">(<%= @ratings.total_count %>)</small></h3>
+  <h3><%= yield :title %> <small class="text-muted">(<%= @media.total_count %>)</small></h3>
   <div class="row">
     <div class="dropdown mx-2">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -10,6 +10,7 @@
       <div class="dropdown-menu" aria-labelledby="sortDropdownMenuButton">
         <%= link_to 'A - Z', media_index_path(sort: 'a-z'), class: 'dropdown-item' %>
         <%= link_to 'Score', media_index_path(sort: 'score'), class: 'dropdown-item' %>
+        <%= link_to 'User count', media_index_path(sort: 'users'), class: 'dropdown-item' %>
       </div>
     </div>
     <div class="dropright">
@@ -27,7 +28,7 @@
 </div>
 
 <div class="row list-group my-2">
-  <% @media_ids.each do |media_id| %>
+  <% @media.each do |media_id| %>
     <% media = get_media(media_id) %>
     <a href="<%= media_path media_id %>" class="list-group-item list-group-item-action flex-column align-items-start mb-2">
       <div class="d-flex align-items-stretch justify-content-between">
@@ -51,6 +52,6 @@
 </div>
 
 <div class="row">
-  <%= paginate @ratings %>
+  <%= paginate @media %>
 </div>
 

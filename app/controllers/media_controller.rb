@@ -8,10 +8,10 @@ class MediaController < ApplicationController
   # GET /media
   def index
     @title = 'Media List'
-    @ratings = sorted_ratings
-    check_genre_param
-    @media_ids = @ratings.collect(&:media_id)
-    @counts = @ratings.inject(Hash.new(0)) {|h, rating| h[rating.media_id] += 1; h }
+    ratings = Rating.all
+    @counts = ratings.inject(Hash.new(0)) {|h, rating| h[rating.media_id] += 1; h }
+    # Sort and paginate
+    @media = Kaminari.paginate_array(sort_ratings(ratings, @counts).collect(&:media_id).uniq).page(params[:page]).per(Rating::PER_PAGE)
   end
 
   # GET /media/1
@@ -20,7 +20,7 @@ class MediaController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # Use callbacks to share common setup or constraints between actions.s
     def set_media
       @media = get_media(params[:id])
     end
@@ -36,31 +36,24 @@ class MediaController < ApplicationController
     end
 
   # Sort results if param provided
-  def sorted_ratings
+  def sort_ratings(ratings, counts)
     # Sort alphabetically
     if params[:sort] == 'a-z'
-      return Kaminari.paginate_array(
-          Rating.all.sort_by {|r| get_media(r.media_id)['title']}
-          ).page(params[:page]).per(Rating::PER_PAGE)
-
+      return ratings.sort_by {|r| get_media(r.media_id)['title']}
     # Sort by score
     elsif params[:sort] == 'score'
-      return Kaminari.paginate_array(
-          Rating.all.sort_by {|r| media_score(r.media_id).to_f || -1 }.reverse!
-          ).page(params[:page]).per(Rating::PER_PAGE)
+      return ratings.sort_by {|r| media_score(r.media_id).to_f || -1 }.reverse!
+    # Sort by number of users
+    elsif params[:sort] == 'users'
+      return ratings.sort_by {|r| counts[r.media_id] }.reverse!
+    # Sort by genre and set title
+    elsif params[:genre].present?
+      genre_name = get_genres['genres'].detect { |g| g['id'].to_s == params[:genre].to_s }['name']
+      @title = "#{genre_name} Media"
+      return ratings.select {|r| (get_media(r.media_id)['genres'].detect {|g| g['id'].to_s == params[:genre].to_s}).present? }
     end
-    Rating.page(params[:page])
+    # Don't sort
+    ratings
   end
-
-    # Filter results if genre provided
-    def check_genre_param
-      if params[:genre].present?
-        @ratings = Kaminari.paginate_array(
-            @ratings.select {|r| (get_media(r.media_id)['genres'].detect {|g| g['id'].to_s == params[:genre].to_s}).present? }
-        ).page(params[:page]).per(Rating::PER_PAGE)
-        genre_name = get_genres['genres'].detect { |g| g['id'].to_s == params[:genre].to_s }['name']
-        @title = "#{genre_name} Media"
-      end
-    end
 
 end

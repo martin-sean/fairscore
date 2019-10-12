@@ -1,5 +1,6 @@
 <% provide(:title, 'My List') %>
 
+<%# Dropdowns %>
 <div class="d-flex justify-content-end">
   <div class="row">
     <div class="dropdown mx-2">
@@ -27,9 +28,6 @@
   </div>
 </div>
 
-<div class="row">
-
-</div>
 <% @status_ratings.each do |index, ratings| %>
   <% if ratings.present? %>
     <div class="row">
@@ -41,4 +39,8 @@
       <h4 class="text-muted">No Matches</h4>
     </div>
   <% end %>
+<% end %>
+
+<% if @status_ratings.empty? %>
+  <h3 class="row">No Media</h3>
 <% end %>

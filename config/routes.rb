@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'session#destroy'
   get '/medialist', to: 'media_list#index'
   get '/discover', to: 'discover#index'
+  get '/stats', to: 'statistics#index'
 
   # Unmatched routes
   get '*unmatched_route', :to => 'home#not_found'

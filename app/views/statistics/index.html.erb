@@ -1,0 +1,13 @@
+<% provide(:title, 'Statistics') %>
+
+<h3 class="mb-3"><%= yield :title %></h3>
+
+<h4 class="mb-3">
+  <span class="text-muted">There are </span><%= @users.length %>
+  <span class="text-muted"> registered <%= 'user'.pluralize(@users.length) %></span>
+  <span class="text-muted"> who <%= 'has'.pluralize(@users.length) %> </span><%= @ratings.length %>
+  <span class="text-muted"> ratings for </span><%= @media.length %>
+  <span class="text-muted"> media.</span>
+</h4>
+
+<%= column_chart @graph_data, width: '700px', height: '500px', title: 'All scored ratings', xtitle: 'Score', ytitle: 'Count', label: 'Number of ratings'  %>
