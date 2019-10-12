@@ -27,13 +27,18 @@
   </div>
 </div>
 
+<div class="row">
+
+</div>
 <% @status_ratings.each do |index, ratings| %>
   <% if ratings.present? %>
-    <h3><%= @statuses.detect {|s| s.id == index}.label %></h3>
-    <div class="mb-3">
-      <%= render 'media_rating_list', ratings: ratings%>
+    <div class="row">
+      <h4><%= @statuses.detect {|s| s.id == index}.label %> <small class="text-muted">(<%= ratings.length %>)</small></h4>
     </div>
+    <%= render 'media_rating_list', ratings: ratings%>
   <% else %>
-    <h4 class="text-muted">No Matches</h4>
+    <div class="row">
+      <h4 class="text-muted">No Matches</h4>
+    </div>
   <% end %>
 <% end %>

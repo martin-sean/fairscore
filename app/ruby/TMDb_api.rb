@@ -29,7 +29,7 @@ module TMDbApi
   end
 
   def get_genre_movies(genres, page = 1)
-    url = BASE_URL + '/discover/movie?sort_by=popular.desc&with_genres=' + genres + '&page=' + page + '&api_key=' + MDB_API_KEY
+    url = BASE_URL + '/discover/movie?sort_by=vote_count.desc&with_genres=' + genres.to_s + '&page=' + page.to_s + '&api_key=' + MDB_API_KEY
     JSON.parse(cached_media(genres, page, url))
   end
 
@@ -39,18 +39,24 @@ module TMDbApi
     JSON.parse(open(url).read)
   end
 
+  # Get genre list
+  def get_genres
+    url = BASE_URL + '/genre/movie/list?api_key=' + MDB_API_KEY
+    JSON.parse(cached_media('genre-list', 1, url, 24.hours))
+  end
+
   private
 
     # Retrieve result from cache and request an update if required
     def cached_media(id, page, url, time = 6.hours)
       cache_key = "media(#{id})-page(#{page})-TMDbAPI"
       cached_media = Rails.cache.read(cache_key)
-      # If cache is blank immediately update the cache and await API
+      # If cache is blank, update immediately
       if cached_media.blank?
         result = open(url).read
         Rails.cache.write(cache_key, {value: result, last_update: Time.current})
         cached_media = { value: result }
-      # If cache is populated but needs refreshing
+      # Update later if cache is populated but needs refreshing
       elsif time_elapsed?(Time.current, cached_media[:last_update], time)
         ResultCacheUpdateJob.perform_later(url, cache_key)
       end

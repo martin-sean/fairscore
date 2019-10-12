@@ -2,6 +2,7 @@ include UserRatingMaths
 
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:update, :destroy]
+  before_action -> { require_owner @rating }, only: [:update, :destroy]
 
   # POST /media/:media_id/rating
   def create

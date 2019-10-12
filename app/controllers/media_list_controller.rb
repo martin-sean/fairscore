@@ -1,7 +1,7 @@
 include TMDbApi
 
 class MediaListController < ApplicationController
-
+  before_action :require_login
   before_action :set_ratings
   before_action :set_statuses
 

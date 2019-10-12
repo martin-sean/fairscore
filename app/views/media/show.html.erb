@@ -19,12 +19,12 @@
     <div class="col">
       <%# Title and overview %>
       <% year = year_from_date(@media['release_date']) %>
-      <h2 class="mb-1"><%= @media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h2>
+      <h2 class="mb-2"><%= @media['title'] %><% if year %> <small class="text-muted">(<%= year %>)</small><% end %></h2>
       <p><%= @media['overview'] %></p>
       <%# Genres %>
       <div class="mb-3 genre-show-box">
         <% @media['genres'].each do |genre| %>
-          <%= link_to genre['name'], media_index_path(genre: genre['id']), class: 'badge badge-success'%>
+          <%= link_to genre['name'], discover_path(genre: genre['id']), class: 'badge badge-success'%>
         <% end %>
       </div>
       <%# Number of ratings %>

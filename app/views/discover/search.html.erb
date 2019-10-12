@@ -1,5 +1,0 @@
-<% provide(:title, 'Search') %>
-
-<h3>Results for '<%= params[:query] %>'</h3>
-<%= render 'results' %>
-<%= render 'shared/pagination', page: method(:discover_search_path), current_page: @results['page'].to_i, total_pages: @results['total_pages'].to_i %>

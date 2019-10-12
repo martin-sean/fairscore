@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users
+  resources :users, only: [:show, :new, :create]
   resources :media, only: [:index, :show] do
     resource :ratings, only: [:create, :update, :destroy]
   end
@@ -15,5 +15,8 @@ Rails.application.routes.draw do
   delete '/logout', to: 'session#destroy'
   get '/medialist', to: 'media_list#index'
   get '/discover', to: 'discover#index'
-  post '/discover/search', to: 'discover#search'
+
+  # Unmatched routes
+  get '*unmatched_route', :to => 'home#not_found'
+
 end

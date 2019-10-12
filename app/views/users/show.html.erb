@@ -1,7 +1,28 @@
-<p>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</p>
+<%= provide(:title, @user.username + ' · Profile') %>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<h3 class="mb-4">Profile Page</h3>
+
+<h5 class="mb-2">
+  <span class="text-muted">Hi there </span>
+  <%= @user.username %>
+</h5>
+
+<h5 class="mb-2">
+  <small class="text-muted">You have </small>
+  <%= @user.ratings.length %>
+  <small class="text-muted"> series on your list with </small>
+  <%= @user.scored_ratings %>
+  <small class="text-muted"> ratings</small>
+</h5>
+
+<h5 class="mb-5">
+  <small class="text-muted">Your average rating is </small>
+  <%= '%.2f' % @user.rating_sum.fdiv(@user.scored_ratings) %>
+  <small class="text-muted"> / 10</small>
+</h5>
+
+<%# data = @user.ratings.group(:score).count %>
+<%# data.delete nil %>
+<%# array = Array.new(10, 0) %>
+<%# data.each {|key, value| array[key] += value} %>
+<%= column_chart @user.ratings.group(:score).count, width: '500px' %>

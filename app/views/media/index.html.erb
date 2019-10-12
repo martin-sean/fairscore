@@ -1,19 +1,32 @@
-<% provide(:title, 'Media List') %>
+<% provide(:title, @title) %>
 
-<div class="d-flex justify-content-between">
-  <h3><%= yield :title %></h3>
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Sort
-    </button>
-    <div class="dropdown-menu" aria-labelledby="sortDropdownMenuButton">
-      <%= link_to 'A - Z', media_index_path(sort: 'a-z'), class: 'dropdown-item' %>
-      <%= link_to 'Score', media_index_path(sort: 'score'), class: 'dropdown-item' %>
+<div class="row d-flex justify-content-between">
+  <h3><%= yield :title %> <small class="text-muted">(<%= @ratings.total_count %>)</small></h3>
+  <div class="row">
+    <div class="dropdown mx-2">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Sort
+      </button>
+      <div class="dropdown-menu" aria-labelledby="sortDropdownMenuButton">
+        <%= link_to 'A - Z', media_index_path(sort: 'a-z'), class: 'dropdown-item' %>
+        <%= link_to 'Score', media_index_path(sort: 'score'), class: 'dropdown-item' %>
+      </div>
+    </div>
+    <div class="dropright">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Genre
+      </button>
+      <div class="dropdown-menu" aria-labelledby="sortDropdownMenuButton">
+        <% get_genres['genres'].each do |genre| %>
+          <%= link_to genre['name'], media_index_path(genre: genre['id']), class: 'dropdown-item' %>
+        <% end %>
+      </div>
     </div>
   </div>
+
 </div>
 
-<div class="list-group my-2">
+<div class="row list-group my-2">
   <% @media_ids.each do |media_id| %>
     <% media = get_media(media_id) %>
     <a href="<%= media_path media_id %>" class="list-group-item list-group-item-action flex-column align-items-start mb-2">
@@ -37,4 +50,7 @@
   <% end %>
 </div>
 
-<%= paginate @ratings %>
+<div class="row">
+  <%= paginate @ratings %>
+</div>
+

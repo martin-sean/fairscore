@@ -1,8 +1,8 @@
 <% provide(:title, 'Discover · ' + @title) %>
 
 <%# Title and dropdown %>
-<div class="d-flex justify-content-between">
-  <h3><%= @title %></h3>
+<div class="row d-flex justify-content-between">
+  <h3><%= @title %><small class="text-muted"> (<%= @results['total_results'] %>)</small></h3>
   <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Browse
@@ -14,6 +14,17 @@
     </div>
   </div>
 </div>
+
+<%# Render genre pills %>
+<hr>
+<div class="row genre-show-box">
+  <div>
+    <% get_genres['genres'].each do |genre| %>
+      <%= link_to genre['name'], discover_path(genre: genre['id']), class: 'badge badge-success m-1'%>
+    <% end %>
+  </div>
+</div>
+<hr>
 
 <%= render 'results' %>
 <%= render 'shared/pagination', page: method(:discover_path), current_page: @results['page'].to_i, total_pages: @results['total_pages'].to_i %>
