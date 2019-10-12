@@ -21,8 +21,10 @@
   <small class="text-muted"> / 10</small>
 </h5>
 
-<%# data = @user.ratings.group(:score).count %>
-<%# data.delete nil %>
-<%# array = Array.new(10, 0) %>
-<%# data.each {|key, value| array[key] += value} %>
-<%= column_chart @user.ratings.group(:score).count, width: '500px' %>
+<% counts = @user.ratings.group(:score).count %>
+<% data = Hash.new(0) %>
+<% (0..10).each {|i| data[i] = 0 } %>
+<% counts.each {|k, v| data[k] = v } %>
+<% data.delete nil %>
+
+<%= column_chart @graph_data, width: '500px', height: '350px', title: 'Scored Ratings', xtitle: 'Score', ytitle: 'Count', label: 'Number of ratings'  %>
