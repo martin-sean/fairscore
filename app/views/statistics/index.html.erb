@@ -9,5 +9,9 @@
   <span class="text-muted"> ratings for </span><%= @media.length %>
   <span class="text-muted"> media.</span>
 </h4>
+<h4 class="mb-3">
+  <span class="text-muted">The global mean is </span><%= calculate_global_mean %>
+  <small class="text-muted"> / 10.</small>
+</h4>
 
-<%= column_chart @graph_data, width: '700px', height: '500px', title: 'All scored ratings', xtitle: 'Score', ytitle: 'Count', label: 'Number of ratings'  %>
+<%= column_chart @graph_data, width: '700px', height: '500px', title: 'Score distribution', xtitle: 'Score', ytitle: 'Count', label: 'Number of ratings'  %>

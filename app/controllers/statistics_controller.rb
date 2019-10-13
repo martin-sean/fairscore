@@ -23,5 +23,6 @@ class StatisticsController < ApplicationController
       (0..10).each {|i| @graph_data[i] = 0 }
       counts.each {|i| @graph_data[i] += 1 }
       @graph_data.delete nil
+      @graph_data
     end
 end

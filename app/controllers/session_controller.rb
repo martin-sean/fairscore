@@ -14,7 +14,7 @@ class SessionController < ApplicationController
       params[:session][:remember_me] == '1' ? remember(user) : forget(user)
       redirect_to root_path
     else
-      flash.now[:error] = 'Email or password was invalid'
+      flash.now[:error] = 'Username or password was invalid'
       render 'new'
     end
   end

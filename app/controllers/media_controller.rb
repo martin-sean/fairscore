@@ -9,8 +9,9 @@ class MediaController < ApplicationController
   def index
     @title = 'Media List'
     ratings = Rating.all
+    # Hash of media rating counts
     @counts = ratings.inject(Hash.new(0)) {|h, rating| h[rating.media_id] += 1; h }
-    # Sort and paginate
+    # Sort and paginate media IDs
     @media = Kaminari.paginate_array(sort_ratings(ratings, @counts).collect(&:media_id).uniq).page(params[:page]).per(Rating::PER_PAGE)
   end
 
@@ -35,25 +36,25 @@ class MediaController < ApplicationController
       end
     end
 
-  # Sort results if param provided
-  def sort_ratings(ratings, counts)
-    # Sort alphabetically
-    if params[:sort] == 'a-z'
-      return ratings.sort_by {|r| get_media(r.media_id)['title']}
-    # Sort by score
-    elsif params[:sort] == 'score'
-      return ratings.sort_by {|r| media_score(r.media_id).to_f || -1 }.reverse!
-    # Sort by number of users
-    elsif params[:sort] == 'users'
-      return ratings.sort_by {|r| counts[r.media_id] }.reverse!
-    # Sort by genre and set title
-    elsif params[:genre].present?
-      genre_name = get_genres['genres'].detect { |g| g['id'].to_s == params[:genre].to_s }['name']
-      @title = "#{genre_name} Media"
-      return ratings.select {|r| (get_media(r.media_id)['genres'].detect {|g| g['id'].to_s == params[:genre].to_s}).present? }
+    # Sort results if param provided
+    def sort_ratings(ratings, counts)
+      # Sort alphabetically
+      if params[:sort] == 'a-z'
+        return ratings.sort_by {|r| get_media(r.media_id)['title']}
+      # Sort by score
+      elsif params[:sort] == 'score'
+        return ratings.sort_by {|r| media_score(r.media_id).to_f || -1 }.reverse!
+      # Sort by number of users
+      elsif params[:sort] == 'users'
+        return ratings.sort_by {|r| counts[r.media_id] }.reverse!
+      # Sort by genre and set title
+      elsif params[:genre].present?
+        genre_name = get_genres['genres'].detect { |g| g['id'].to_s == params[:genre].to_s }['name']
+        @title = "#{genre_name} Media"
+        return ratings.select {|r| (get_media(r.media_id)['genres'].detect {|g| g['id'].to_s == params[:genre].to_s}).present? }
+      end
+      # Don't sort
+      ratings
     end
-    # Don't sort
-    ratings
-  end
 
 end
