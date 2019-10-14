@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class ResultCacheUpdateJob < ApplicationJob
-  queue_as 'fairscore.fifo'
+  queue_as :fairscore
 
   # Read JSON result from URL and update cache
   def perform(url, cache_key)
