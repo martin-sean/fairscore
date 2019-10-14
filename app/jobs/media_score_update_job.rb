@@ -1,7 +1,7 @@
 include UserRatingMaths
 
 class MediaScoreUpdateJob < ApplicationJob
-  queue_as :fairscore
+  queue_as 'fairscore.fifo'
 
   # Write the average zscore of a media to cache
   def perform(media_id, cache_key)
