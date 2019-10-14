@@ -1,0 +1,3 @@
+production:
+  host: <%= ENV['CACHE_HOST'] %>
+  port: <%= ENV['CACHE_PORT'] %>

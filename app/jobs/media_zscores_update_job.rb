@@ -1,7 +1,7 @@
 include UserRatingMaths
 
 class MediaZscoresUpdateJob < ApplicationJob
-  queue_as :default
+  queue_as 'fairscore.fifo'
 
   # When a user changes the score of a rating, update the stored zscore of the rating
   # and adjust the associated media's zscore sum
