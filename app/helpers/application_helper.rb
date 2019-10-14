@@ -19,13 +19,15 @@ module ApplicationHelper
   # Get the score for a given media from cache or recalculate
   def media_score(media_id)
     cache_key = "media-zscore-#{media_id}"
-    score = 5
+    score = Rails.cache.read(cache_key)
     # Check if score cache needs updating
     if score.blank? || time_elapsed?(Time.now, score[:last_update], 5.minutes)
       MediaScoreUpdateJob.perform_later(media_id, cache_key)
     end
     # Return if score exists
-    format_score(score[:value]) if score.present?
+    if score.present?
+      format_score(score[:value])
+    end
   end
 
   # Return the year from the date in the format of YYYY-MM-DD (From TMDb)
