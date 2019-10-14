@@ -18,10 +18,10 @@ module ApplicationHelper
 
   # Get the score for a given media from cache or recalculate
   def media_score(media_id)
-    cache_key = 'media-zscore-' + media_id.to_s
+    cache_key = "media-zscore-#{media_id}"
     score = Rails.cache.read(cache_key)
     # Check if score cache needs updating
-    if score.blank? || time_elapsed?(Time.now, score[:last_update], 5.minutes)
+    if score.blank? || score[:last_update].blank? || time_elapsed?(Time.now, score[:last_update], 5.minutes)
       MediaScoreUpdateJob.perform_later(media_id, cache_key)
     end
     # Return if score exists

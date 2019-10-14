@@ -10,7 +10,7 @@
       <div id="score-box" class="bg-light text-center my-2 p-2 border rounded">
         <% score = media_score(media_id) %>
         <% if score.present? %>
-          <strong><%= media_score(media_id) %><small class="text-muted"> / 10</small></strong>
+          <strong><%= score %><small class="text-muted"> / 10</small></strong>
         <% else %>
           <small class="text-muted">No score</small>
         <% end %>

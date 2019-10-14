@@ -20,12 +20,12 @@
         </div>
         <%# Render footer with score %>
         <div class="card-footer text-center p-2">
-          <%# score = media_score(media_id) %>
-          <%# if score.present? %>
-<!--            <strong><%#= score %></strong><small class="text-muted"> / 10</small>-->
-          <%# else %>
-<!--            <small class="text-muted">No score yet</small>-->
-          <%# end %>
+          <% score = media_score(media_id) %>
+          <% if score.present? %>
+            <strong><%= score %></strong><small class="text-muted"> / 10</small>
+          <% else %>
+            <small class="text-muted">No score yet</small>
+          <% end %>
         </div>
       </div>
     <% end %>
