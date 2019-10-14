@@ -10,47 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_10_085805) do
-
-  create_table "actors", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "age"
-    t.string "info"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "directors", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "age"
-    t.string "info"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "genres", force: :cascade do |t|
-    t.string "label", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "media_actors", force: :cascade do |t|
-    t.integer "media_id", null: false
-    t.integer "actor_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["actor_id"], name: "index_media_actors_on_actor_id"
-    t.index ["media_id"], name: "index_media_actors_on_media_id"
-  end
-
-  create_table "media_genres", force: :cascade do |t|
-    t.integer "media_id", null: false
-    t.integer "genre_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["genre_id"], name: "index_media_genres_on_genre_id"
-    t.index ["media_id"], name: "index_media_genres_on_media_id"
-  end
+ActiveRecord::Schema.define(version: 2019_10_14_094757) do
 
   create_table "ratings", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -84,10 +44,6 @@ ActiveRecord::Schema.define(version: 2019_10_10_085805) do
     t.integer "scored_ratings", default: 0, null: false
   end
 
-  add_foreign_key "media_actors", "actors"
-  add_foreign_key "media_actors", "media"
-  add_foreign_key "media_genres", "genres"
-  add_foreign_key "media_genres", "media"
   add_foreign_key "ratings", "statuses"
   add_foreign_key "ratings", "users"
 end
