@@ -55,7 +55,7 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   REDIS_CONFIG = YAML::load_file(Rails.root.join('config', 'redis.yml'))
-  config.cache_store = :redis_cache_score, {url: REDIS_CONFIG['host'], port: REDIS_CONFIG['port']}
+  config.cache_store = :redis_cache_store, {url: REDIS_CONFIG['host'], port: REDIS_CONFIG['port']}
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
