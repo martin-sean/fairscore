@@ -12,23 +12,23 @@ module TMDbApi
   end
 
   # Return movies for this year
-  def get_new_movies(page = 1)
+  def get_new_movies(page)
     url = BASE_URL + '/discover/movie?primary_release_year='+ Time.current.year.to_s + '&page=' + page.to_s + '&api_key=' + MDB_API_KEY
     JSON.parse(cached_media('new-movies', page, url))
   end
 
   # Return the top movies with at least 10000 votes
-  def get_top_movies(page = 1)
+  def get_top_movies(page)
     url = BASE_URL + '/discover/movie?sort_by=vote_average.desc&vote_count.gte=4000&page=' + page.to_s + '&api_key=' + MDB_API_KEY
     JSON.parse(cached_media('top-movies', page, url))
   end
 
-  def get_watched_movies(page = 1)
+  def get_watched_movies(page)
     url = BASE_URL + '/discover/movie?sort_by=vote_count.desc&page=' + page.to_s + '&api_key=' + MDB_API_KEY
     JSON.parse(cached_media('watched-movies', page, url))
   end
 
-  def get_genre_movies(genres, page = 1)
+  def get_genre_movies(genres)
     url = BASE_URL + '/discover/movie?sort_by=vote_count.desc&with_genres=' + genres.to_s + '&page=' + page.to_s + '&api_key=' + MDB_API_KEY
     JSON.parse(cached_media(genres, page, url))
   end
@@ -58,7 +58,7 @@ module TMDbApi
         cached_media = { value: result }
       # Update later if cache is populated but needs refreshing
       elsif time_elapsed?(Time.current, cached_media[:last_update], time)
-        ResultCacheUpdateJob.perform_later(url, cache_key)
+        # ResultCacheUpdateJob.perform_later(url, cache_key)
       end
       cached_media[:value]
     end
