@@ -62,8 +62,8 @@ end
 group :production do
   # Use Postgres as the database for Active Record in production
   gem 'pg', '0.20.0'
-  # Use elastic beanstalk SQS for request processing queue ('Unofficial' support for FIFO queues)
-  gem 'active_elastic_job', path: File.join(File.dirname(__FILE__ ), 'vendor', 'gems', 'active-elastic-job-fifo')
+  # Use elastic beanstalk SQS for request processing queue
+  gem 'active_elastic_job'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
