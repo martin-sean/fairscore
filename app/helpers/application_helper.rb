@@ -27,7 +27,7 @@ module ApplicationHelper
     # Return if score exists
     format_score(score[:value]) if score.present?
   end
-``
+
   # Return the year from the date in the format of YYYY-MM-DD (From TMDb)
   def year_from_date(string)
     return unless string.present?
