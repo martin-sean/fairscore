@@ -20,9 +20,10 @@ class MediaListController < ApplicationController
     end
 
     def set_statuses
-      @statuses = Rails.cache.fetch('statuses') do
-        Status.all.to_a
-      end
+      @statuses = Status.all
+      # @statuses = Rails.cache.fetch('statuses') do
+      #   Status.all.to_a
+      # end
     end
 
     # Sort the ratings
