@@ -1,6 +1,5 @@
-GIT
-  remote: https://github.com/Chacattack/active-elastic-job
-  revision: f6fa487753cb09f3e97cf29a4b41c8c272555d8b
+PATH
+  remote: vendor/gems/active-elastic-job-fifo
   specs:
     active_elastic_job (2.0.2)
       aws-sdk (~> 2)
