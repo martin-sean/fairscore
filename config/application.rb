@@ -18,5 +18,6 @@ module Fairscore
 
     # Request job queue
     config.active_job.queue_adapter = Rails.env.production? ? :active_elastic_job : :sidekiq
+    Rails.application.config.active_elastic_job.secret_key_base = Rails.application.credentials.secret_key_base
   end
 end

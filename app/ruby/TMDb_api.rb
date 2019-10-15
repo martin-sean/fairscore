@@ -58,7 +58,7 @@ module TMDbApi
         cached_media = { value: result }
       # Update later if cache is populated but needs refreshing
       elsif time_elapsed?(Time.current, cached_media[:last_update], time)
-        # ResultCacheUpdateJob.perform_later(url, cache_key)
+        ResultCacheUpdateJob.perform_later(url, cache_key)
       end
       cached_media[:value]
     end
