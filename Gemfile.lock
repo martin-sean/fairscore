@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/Chacattack/active-elastic-job
+  revision: f6fa487753cb09f3e97cf29a4b41c8c272555d8b
+  specs:
+    active_elastic_job (2.0.2)
+      aws-sdk (~> 2)
+      rails (>= 4.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -37,9 +45,6 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    active_elastic_job (2.0.1)
-      aws-sdk (~> 2)
-      rails (>= 4.2)
     activejob (6.0.0)
       activesupport (= 6.0.0)
       globalid (>= 0.3.6)
@@ -65,13 +70,13 @@ GEM
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
     aws-eventstream (1.0.3)
-    aws-sdk (2.11.358)
-      aws-sdk-resources (= 2.11.358)
-    aws-sdk-core (2.11.358)
+    aws-sdk (2.11.374)
+      aws-sdk-resources (= 2.11.374)
+    aws-sdk-core (2.11.374)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.358)
-      aws-sdk-core (= 2.11.358)
+    aws-sdk-resources (2.11.374)
+      aws-sdk-core (= 2.11.374)
     aws-sigv4 (1.1.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
     bcrypt (3.1.13)
@@ -248,7 +253,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_elastic_job
+  active_elastic_job!
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
   byebug
