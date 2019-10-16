@@ -54,11 +54,12 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
-  redis_config = YAML::load_file(Rails.root.join('config', 'redis.yml'))
-  config.cache_store = :redis_cache_store, {url: "redis://#{redis_config['host']}:#{redis_config['port']}/0"}
+  config.cache_store = :redis_cache_store, {url: "redis://#{ENV['CACHE_HOST']}:#{ENV['CACHE_PORT']}/12"}
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter     = :resque
+  config.active_job.queue_adapter = :active_elastic_job
+  config.active_elastic_job.secret_key_base = Rails.application.credentials.secret_key_base
+
   # config.active_job.queue_name_prefix = "fairscore_production"
 
   config.action_mailer.perform_caching = false
