@@ -28,13 +28,13 @@ module TMDbApi
     JSON.parse(cached_media('watched-movies', page, url))
   end
 
-  def get_genre_movies(genres)
+  def get_genre_movies(genres, page)
     url = BASE_URL + '/discover/movie?sort_by=vote_count.desc&with_genres=' + genres.to_s + '&page=' + page.to_s + '&api_key=' + MDB_API_KEY
     JSON.parse(cached_media(genres, page, url))
   end
 
   # Search movies
-  def search_movies(query, page = 1)
+  def search_movies(query, page)
     url = BASE_URL + '/search/movie?query=' + query.to_s + '&page=' + page.to_s + '&api_key=' + MDB_API_KEY
     JSON.parse(open(url).read)
   end
@@ -49,6 +49,7 @@ module TMDbApi
 
     # Retrieve result from cache and request an update if required
     def cached_media(id, page, url, time = 6.hours)
+      page = 1 if page.blank? # Blank pages are associated with page 1
       cache_key = "media(#{id})-page(#{page})-TMDbAPI"
       cached_media = Rails.cache.read(cache_key)
       # If cache is blank, update immediately
